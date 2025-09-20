@@ -1,0 +1,71 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ecosurprise
+      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
+      MYSQL_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    # ports:
+    #   - "3307:3306"  # No necesario con network_mode: host
+    volumes:
+      - db_data:/var/lib/mysql
+    network_mode: "host"
+    # networks:
+    #   - app-network
+    command: --port=3307 --bind-address=0.0.0.0
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-P", "3307", "-p${SPRING_DATASOURCE_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./Back-eco
+    # ports:
+    #   - "8080:8080"  # No necesario con network_mode: host
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3307/ecosurprise  # Cambiar 'db' por 'localhost'
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      db:
+        condition: service_healthy
+    network_mode: "host"
+    # networks:
+    #   - app-network
+
+  frontend:
+    build: ./Front-eco
+    # ports:
+    #   - "8081:8081"  # No necesario con network_mode: host
+    #   - "19000:19000"
+    #   - "19001:19001"
+    #   - "19002:19002"
+    environment:
+      - EXPO_IP=${EXPO_IP}
+      - REACT_NATIVE_PACKAGER_HOSTNAME=${EXPO_IP}  # Agregar esta línea
+    network_mode: "host"
+    # networks:
+    #   - app-network
+    volumes:
+      - ./Front-eco:/app
+      - /app/node_modules
+    tty: true          # Habilita TTY
+    stdin_open: true   # Mantiene STDIN abierto
+    command: 
+      - sh
+      - -c
+      - |
+        echo "const config = { EXPO_IP: '${EXPO_IP}' }; export default config;" > /app/api/config.js &&
+        npx expo start --host lan --port 8081
+
+# networks:  # Comentar toda la sección de networks
+#   app-network:
+#     driver: bridge
+
+volumes:
+  db_data:

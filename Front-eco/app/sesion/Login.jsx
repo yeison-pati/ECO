@@ -1,0 +1,207 @@
+import React, { useEffect, useRef, useState } from "react";
+import { View, StyleSheet, TextInput, Text, TouchableOpacity } from "react-native";
+import CustomButton from "../components/buttons/CustomButton";
+import { useUser } from "../../Context/UserContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BackButton from "../components/buttons/behavorial/BackButton";
+import Font from "../components/aesthetic/Font";
+import { useAppNavigation } from "../hooks/useAppNavigation";
+import ErrorMessage from "../components/alerts/ErrorMessage";
+import OverBottom from "../components/alerts/OverBottom";
+
+export default function Login() {
+  const insets = useSafeAreaInsets();
+  const { login, error, clearError, loading } = useUser();
+  const navigate = useAppNavigation();
+
+  const contrasenaInput = useRef(null);
+
+  const [correo, setCorreo] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [errorCorreo, setErrorCorreo] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    setErrorCorreo(
+      correo !== "" &&
+        (!/^[a-zA-Z0-9]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/.test(correo) ||
+          correo.endsWith(".") ||
+          correo.startsWith(".") ||
+          correo.includes(".."))
+    );
+  }, [correo]);
+
+  // Efecto para mostrar errores del contexto
+  useEffect(() => {
+    if (error) {
+      setErrorMessage(error);
+      setErrorAlert(true);
+    }
+  }, [error]);
+
+  const handleLogin = async () => {
+    try {
+      // Validaciones locales
+      if (!correo || !contrasena) {
+        setErrorMessage("Por favor, complete todos los campos");
+        setErrorAlert(true);
+        return;
+      }
+      
+      if (errorCorreo) {
+        setErrorMessage("Por favor, ingrese un correo electrónico válido");
+        setErrorAlert(true);
+        return;
+      }
+      
+      // Limpiar errores previos
+      setErrorAlert(false);
+      setErrorMessage("");
+      clearError();
+      
+      // Intentar iniciar sesión
+      const response = await login(correo.toLowerCase(), contrasena);
+      
+      // Si llegamos aquí, el login fue exitoso
+      // La navegación se maneja automáticamente en otro lugar (AuthProvider, etc.)
+      console.log("Login exitoso:", response);
+      
+    } catch (loginError) {
+      // El error ya está manejado en el contexto, solo necesitamos mostrarlo
+      console.error("Error en handleLogin:", loginError);
+      // El useEffect se encargará de mostrar la alerta cuando 'error' cambie
+    }
+  };
+
+  const handleCloseAlert = () => {
+    setErrorAlert(false);
+    setErrorMessage("");
+    clearError(); // Limpiar el error del contexto también
+  };
+
+  return (
+    <View
+      style={[
+        styles.root,
+        { paddingTop: insets.top, paddingBottom: insets.bottom },
+      ]}
+    >
+      <BackButton onPress={navigate.back} />
+      <View style={styles.container}>
+        <Font
+          mensage="Iniciar Sesión"
+          variant="bold"
+          size={35}
+          Color="#05130A"
+          style={styles.title}
+        />
+        
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={[styles.input, errorCorreo && styles.inputError]}
+            placeholder="Correo electrónico"
+            value={correo}
+            onChangeText={setCorreo}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            returnKeyType="next"
+            onSubmitEditing={() => contrasenaInput.current?.focus()}
+            editable={!loading} // Deshabilitar durante loading
+          />
+          {errorCorreo && (
+            <ErrorMessage message="Formato de correo electrónico inválido" />
+          )}
+        </View>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            ref={contrasenaInput}
+            style={styles.input}
+            placeholder="Contraseña"
+            value={contrasena}
+            onChangeText={setContrasena}
+            secureTextEntry
+            returnKeyType="done"
+            onSubmitEditing={handleLogin}
+            editable={!loading} // Deshabilitar durante loading
+          />
+        </View>
+
+        <CustomButton
+          title={loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+          onPress={handleLogin}
+          variant="dark"
+          style={styles.loginButton}
+          disabled={loading} // Deshabilitar durante loading
+        />
+
+        <TouchableOpacity
+          onPress={navigate.toRegister}
+          style={styles.registerLink}
+          disabled={loading} // Deshabilitar durante loading
+        >
+          <Text style={[
+            styles.registerText,
+            loading && styles.disabledText
+          ]}>
+            ¿No tienes una cuenta? Regístrate aquí
+          </Text>
+        </TouchableOpacity>
+
+        {/* Alerta de error */}
+        {errorAlert && (
+          <OverBottom
+            message={errorMessage}
+            onPress={handleCloseAlert}
+          />
+        )}
+
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: "#FEF3EF",
+  },
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+  },
+  title: {
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  input: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    padding: 15,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+  },
+  inputError: {
+    borderColor: "#E54C4D",
+  },
+  loginButton: {
+    marginTop: 20,
+  },
+  registerLink: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  registerText: {
+    color: "#93181B",
+    fontSize: 16,
+  },
+  disabledText: {
+    opacity: 0.5,
+  },
+});
