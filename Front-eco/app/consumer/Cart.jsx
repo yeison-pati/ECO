@@ -47,9 +47,9 @@ export default function Cart() {
     };
 
 
-    useFocusEffect(() => {
+    useEffect(() => {
         fetchCart();
-    });
+    }, [user]);
 
 
     const calcularNuevoTotal = (productos) => {
