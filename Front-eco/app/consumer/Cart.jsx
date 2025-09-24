@@ -29,7 +29,10 @@ export default function Cart() {
 
 
     const fetchCart = async () => {
-        if (!user?.id) return;
+        if (!user?.id) {
+            setLoading(false);
+            return;
+        }
 
         try {
             setLoading(true);
@@ -82,6 +85,16 @@ export default function Cart() {
         return <ActivityIndicator size="large" color="#617957" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
+    if (!user) {
+        return (
+            <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+                <View style={styles.container}>
+                    <BackButton />
+                    <Text style={styles.error}>Inicia sesión para ver el carrito</Text>
+                </View>
+            </SafeAreaView>
+        );
+    }
 
     return (
         <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
