@@ -5,7 +5,7 @@ const axiosProductos = async (idUsuario, rol) => {
     try {
         let response;
         if (rol === "COMERCIANTE") {
-            // Usar el ID explícitamente en la llamada
+
             response = await API.comerciante.getProductos(idUsuario);
         } else {
             response = await API.consumidor.getProductos(idUsuario);

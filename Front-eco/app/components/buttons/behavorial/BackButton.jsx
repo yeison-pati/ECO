@@ -1,15 +1,15 @@
-// Componente BackButton
-// Botón personalizado que permite al usuario regresar a la pantalla anterior.
 
-//Importaciones de componentes de React Native y librerías
+
+
+
 import { TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 export default function BackButton({ navigation }) {
-  const nav = navigation || useNavigation(); // si no se pasa navigation (util en modals, etc)
+  const nav = navigation || useNavigation();
 
   return (
-    // Botón táctil que, al ser presionado, regresa a la pantalla anterior
+
     <TouchableOpacity style={styles.backButton} onPress={() => nav.goBack()}>
       {/* Icono de flecha para representar el botón de regreso */}
       <Image
@@ -20,7 +20,7 @@ export default function BackButton({ navigation }) {
   );
 }
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
   backButton: {
     position: "absolute",

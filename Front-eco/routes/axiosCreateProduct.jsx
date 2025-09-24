@@ -13,7 +13,7 @@ const axiosCreateProduct = async (idComerciante, producto, imagen) => {
       throw new Error("El producto es requerido");
     }
 
-    // Debug de la imagen
+
     if (imagen) {
       console.log("🖼️ Imagen recibida:", {
         hasFile: !!imagen.file,

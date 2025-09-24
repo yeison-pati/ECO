@@ -1,4 +1,4 @@
-// components/DocumentPickerButton.js
+
 import React from 'react';
 import { View, Button, Text } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
@@ -8,7 +8,7 @@ export default function DocumentPickerButton({ documento, setDocumento }) {
     try {
       const result = await DocumentPicker.getDocumentAsync({
         multiple: false,
-        type: 'application/pdf', // Especificamos que solo queremos archivos PDF
+        type: 'application/pdf',
         copyToCacheDirectory: false
       });
       
@@ -18,13 +18,13 @@ export default function DocumentPickerButton({ documento, setDocumento }) {
           setDocumento(result.assets[0]);
 
       } else {
-        // El usuario canceló la selección o no seleccionó un PDF
+
         console.log('Selección de documento cancelada o no es un PDF');
-        setDocumento(null); // Limpiar el estado si no se selecciona un PDF
+        setDocumento(null);
       }
     } catch (err) {
       console.log('Error al seleccionar el documento:', err);
-      setDocumento(null); // Limpiar el estado en caso de error
+      setDocumento(null);
     }
   };
 

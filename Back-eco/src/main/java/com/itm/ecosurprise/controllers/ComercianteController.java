@@ -50,7 +50,7 @@ public class ComercianteController {
             @PathVariable int idComerciante,
             @RequestParam("imagen") MultipartFile imagen,
             @RequestHeader("Authorization") String authorizationHeader) {
-        // Extraer el token del header Authorization
+
         String token = authorizationHeader.replace("Bearer ", "");
         return usuarioService.setImagen(idComerciante, imagen, token);
     }
@@ -63,7 +63,7 @@ public class ComercianteController {
     @PostMapping(value = "/{idComerciante}/crearProducto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> crearProducto(
             @PathVariable int idComerciante,
-            @RequestParam("producto") String producto,  // <-- String, no Map
+            @RequestParam("producto") String producto,
             @RequestParam("imagen") MultipartFile imagen) {
         return productoService.crear(idComerciante, producto, imagen);
     }
@@ -82,7 +82,7 @@ public class ComercianteController {
     public ResponseEntity<?> actualizarProducto(
             @PathVariable int idComerciante,
             @PathVariable int idProducto,
-            @RequestParam("producto") String producto,  // <-- String, no Map
+            @RequestParam("producto") String producto,
             @RequestParam("imagen") MultipartFile imagen) {
         return productoService.actualizar(idComerciante, idProducto, producto, imagen);
     }
@@ -108,7 +108,7 @@ public class ComercianteController {
         return preparacionOrdenes.obtenerOrdenes(idComerciante);
     }
 
-    // obtener orden de la lista de ordenes en prep
+
     @GetMapping("/{idComerciante}/ordenes/preparacion/{idOrden}")
     public ResponseEntity<?> ordenPreparacion(@PathVariable int idComerciante, @PathVariable int idOrden) {
         return preparacionOrdenes.obtenerOrden(idComerciante, idOrden);

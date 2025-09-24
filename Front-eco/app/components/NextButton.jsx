@@ -10,7 +10,7 @@ const NextButton = ({ size = 100, top, left, right, bottom }) => {
                 position: "absolute",
                 width: size,
                 height: size,
-                top: top ? screenHeight * top : undefined, // Ajuste relativo a la pantalla
+                top: top ? screenHeight * top : undefined,
                 left: left ? screenWidth * left : undefined,
                 right: right ? screenWidth * right : undefined,
                 bottom: bottom ? screenHeight * bottom : undefined

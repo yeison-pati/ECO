@@ -32,10 +32,10 @@ export default function SelectProfile() {
         setErrorAlert(true);
         return;
       }
-      //hace visible la carga
+
       setLoading(true);
 
-      // asignar usuario con rol y registroCompleto si es consumidor
+
       const usuarioConRol = {
         ...usuario,
         rol: rol,
@@ -43,7 +43,7 @@ export default function SelectProfile() {
 
       setUsuario(usuarioConRol);
 
-      // Llamar a la API para registrar
+
       const resultado = await AxiosRegister(usuarioConRol);
 
       if (!resultado?.idUsuario) {
@@ -53,10 +53,10 @@ export default function SelectProfile() {
       }
 
       
-      // Guardar usuario completo en AsyncStorage, a partir de acá se debe usar user
+
       await AsyncStorage.setItem("user", JSON.stringify(resultado));
 
-      // Iniciar sesión usando credenciales del registro
+
       await login(usuario.correo, usuario.contrasena);
 
       /**el login establece el user que es el persintente en la app

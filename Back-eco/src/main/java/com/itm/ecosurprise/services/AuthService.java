@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Servicio de Autenticación y Autorización
- */
 @Service
 public class AuthService {
 
@@ -46,55 +43,45 @@ public class AuthService {
 
     public ResponseEntity<?> login(String correo, String contrasena) {
         try {
-            System.out.println("=== Iniciando proceso de login ===");
-            System.out.println("Buscando usuario con correo: " + correo);
-
             if (correo == null || correo.trim().isEmpty()) {
-                System.out.println("Error: Correo vacío o nulo");
                 Map<String, String> error = new HashMap<>();
                 error.put("error", "Credenciales inválidas");
                 error.put("message", "El correo no puede estar vacío");
-                // BAD_REQUEST es correcto para datos de entrada inválidos
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
             }
 
             Optional<Usuario> usuarioOpt = usuarioRepository.findByCorreo(correo.trim());
 
             if (usuarioOpt.isEmpty()) {
-                System.out.println("Usuario no encontrado para correo: " + correo);
                 Map<String, String> error = new HashMap<>();
                 error.put("error", "Credenciales inválidas");
                 error.put("message", "El correo no está registrado");
-                // UNAUTHORIZED es correcto para credenciales inválidas
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
 
             Usuario usuario = usuarioOpt.get();
-            System.out.println("Usuario encontrado: " + usuario.getNombre());
-            System.out.println("Rol del usuario: " + usuario.getRol());
 
             if (contrasena == null || contrasena.trim().isEmpty()) {
-                System.out.println("Error: Contraseña vacía o nula");
                 Map<String, String> error = new HashMap<>();
                 error.put("error", "Credenciales inválidas");
                 error.put("message", "La contraseña no puede estar vacía");
-                // BAD_REQUEST es correcto para datos de entrada inválidos
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
             }
 
             boolean passwordMatches = passwordEncoder.matches(contrasena.trim(), usuario.getContrasena());
-            System.out.println("¿Las contraseñas coinciden?: " + passwordMatches);
 
             if (!passwordMatches) {
                 Map<String, String> error = new HashMap<>();
                 error.put("error", "Credenciales inválidas");
                 error.put("message", "La contraseña es incorrecta");
-                // UNAUTHORIZED es correcto para credenciales inválidas
+
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
             }
 
             String token = generateToken(usuario);
-            System.out.println("Token generado exitosamente");
 
             Map<String, Object> response = new HashMap<>();
             response.put("token", token);
@@ -115,12 +102,11 @@ public class AuthService {
                     Map<String, String> error = new HashMap<>();
                     error.put("error", "Error interno del servidor");
                     error.put("message", e.getMessage());
-                    // INTERNAL_SERVER_ERROR es correcto para errores de servidor
+
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
                 }
             }
 
-            System.out.println("=== Login exitoso ===");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("Error en login: " + e.getMessage());
@@ -128,7 +114,7 @@ public class AuthService {
             Map<String, String> error = new HashMap<>();
             error.put("error", "Error interno del servidor");
             error.put("message", e.getMessage());
-            // INTERNAL_SERVER_ERROR es correcto para errores inesperados
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
@@ -149,19 +135,19 @@ public class AuthService {
                     usuario = new Repartidor();
                     break;
                 default:
-                    // BAD_REQUEST es correcto para datos de entrada inválidos
+
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Rol no válido");
             }
 
             if (usuarioRepository.findByCorreo((String) userData.get("correo")).isPresent()) {
-                // CONFLICT es mejor para recursos que ya existen
+
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("El correo ingresado se encuentra en uso");
 
             }
 
             Map<String, String> telefonotoVer = (Map<String, String>) userData.get("telefono");
             if (telefonotoVer != null && usuarioRepository.findByNumero(telefonotoVer.get("numero")).isPresent()) {
-                // CONFLICT es mejor para recursos que ya existen
+
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("El teléfono ingresado se encuentra en uso");
             }
 
@@ -190,32 +176,18 @@ public class AuthService {
                 }
             }
 
-            // CREATED es mejor para recursos creados exitosamente
+
             return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
         } catch (Exception e) {
             e.printStackTrace();
-            // INTERNAL_SERVER_ERROR es correcto para errores inesperados
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al registrar usuario: " + e.getMessage());
         }
     }
-    /**
-     * Genera un token JWT para un usuario
-     *
-     * El token incluye:
-     * - Subject: Email del usuario
-     * - Claims:
-     *   - rol: Rol del usuario (CONSUMIDOR, COMERCIANTE, REPARTIDOR)
-     *   - id: ID del usuario
-     * - Fecha de emisión
-     * - Fecha de expiración (24 horas por defecto)
-     *
-     * @param usuario Usuario para el cual generar el token
-     * @return Token JWT firmado
-     */
+
     private String generateToken(Usuario usuario) {
         try {
-            System.out.println("Generando token para usuario: " + usuario.getCorreo());
             byte[] keyBytes = jwtSecret.getBytes();
 
             String token = Jwts.builder()
@@ -227,7 +199,6 @@ public class AuthService {
                     .signWith(Keys.hmacShaKeyFor(keyBytes), SignatureAlgorithm.HS512)
                     .compact();
 
-            System.out.println("Token generado exitosamente");
             return token;
         } catch (Exception e) {
             System.err.println("Error al generar token: " + e.getMessage());
@@ -236,17 +207,6 @@ public class AuthService {
         }
     }
 
-    /**
-     * Valida un token JWT
-     * 
-     * Verifica:
-     * - Que el token esté correctamente firmado
-     * - Que no haya expirado
-     * - Que tenga el formato correcto
-     * 
-     * @param token Token JWT a validar
-     * @return true si el token es válido, false en caso contrario
-     */
     public boolean validateToken(String token) {
         try {
             byte[] keyBytes = jwtSecret.getBytes();
@@ -257,18 +217,10 @@ public class AuthService {
                 .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
-            System.err.println("Error al validar token: " + e.getMessage());
             return false;
         }
     }
 
-    /**
-     * Extrae el rol de un token JWT
-     * 
-     * @param token Token JWT válido
-     * @return Rol del usuario (CONSUMIDOR, COMERCIANTE, REPARTIDOR)
-     * @throws Exception si el token es inválido o no contiene el rol
-     */
     public String getRolFromToken(String token) {
         try {
             byte[] keyBytes = jwtSecret.getBytes();
@@ -280,7 +232,6 @@ public class AuthService {
                 .getBody();
             return claims.get("rol", String.class);
         } catch (Exception e) {
-            System.err.println("Error al obtener rol del token: " + e.getMessage());
             throw new RuntimeException("Error al obtener el rol del token: " + e.getMessage());
         }
     }
@@ -300,24 +251,18 @@ public class AuthService {
         }
     }
 
-    /**
-     * Renueva un token JWT válido
-     * 
-     * @param oldToken Token JWT actual
-     * @return Nuevo token JWT con nueva fecha de expiración
-     */
     public String renewToken(String oldToken) {
         try {
             byte[] keyBytes = jwtSecret.getBytes();
             
-            // Extraer claims del token actual
+
             Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(keyBytes))
                 .build()
                 .parseClaimsJws(oldToken)
                 .getBody();
             
-            // Generar nuevo token con los mismos claims pero nueva fecha de expiración
+
             return Jwts.builder()
                     .setSubject(claims.getSubject())
                     .claim("rol", claims.get("rol"))

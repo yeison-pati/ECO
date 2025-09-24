@@ -13,53 +13,53 @@ import ProceedButton from '../components/ProceedButton';
 import TotalCard from '../components/TotalCard';
 
 export default function Cart() {
-    const navigate = useAppNavigation(); // Permite redireccionar a otras pantallas
-    const router = useRouter(); // Router de expo para los listeners
-    const insets = useSafeAreaInsets(); // Obtiene los márgenes seguros del dispositivo
+    const navigate = useAppNavigation();
+    const router = useRouter();
+    const insets = useSafeAreaInsets();
 
-    // Estado que guarda los productos del carrito y el total
+
     const [cartData, setCartData] = useState({
         productos: [],
         total: 0
     });
 
-    // Estado para mostrar spinner de carga mientras se obtiene el carrito
+
     const [loading, setLoading] = useState(true);
 
-    // Función asincrónica que obtiene el carrito del backend
+
     const fetchCart = async () => {
         try {
-            setLoading(true); // Muestra el ActivityIndicator
-            const data = await axiosCarrito(); // Llama al servidor
-            setCartData(data); // Actualiza los productos y el total
+            setLoading(true);
+            const data = await axiosCarrito();
+            setCartData(data);
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
-            setCartData({ productos: [], total: 0 }); // Limpia si falla
+            setCartData({ productos: [], total: 0 });
         } finally {
-            setLoading(false); // Oculta el indicador de carga
+            setLoading(false);
         }
     };
 
-    // Ejecuta fetchCart cuando la pantalla es enfocada o abierta
+
     useEffect(() => {
-        // Este listener se activa cada vez que la pantalla es enfocada (cuando la pantalla actual es visible o se vuelve a abrir).
-        // El 'focus' es un evento que se dispara cuando la pantalla es visitada o regresa al primer plano.
+
+
         const unsubscribe = router.addListener('focus', fetchCart);
 
-        // También ejecuta fetchCart una vez al montar el componente. Esto asegura que los datos del carrito se obtengan cuando la pantalla se muestra por primera vez.
-        fetchCart(); // Llama a la función fetchCart para obtener los datos del carrito cuando la pantalla se muestra por primera vez.
 
-        // Retorna la función `unsubscribe` que se encarga de limpiar (remover) el listener cuando el componente se destruye (desmonta).
-        // De esta manera, evitamos posibles fugas de memoria o múltiples llamadas al mismo evento `focus` si el componente se monta y desmonta repetidamente.
-        return unsubscribe; // Esta línea limpia el listener 'focus' cuando el componente se destruye.
-    }, [router]); // El hook `useEffect` depende de `router`, así que se ejecutará cada vez que este objeto cambie.
+        fetchCart();
 
-    // Función que calcula el total sumando precio * cantidad por producto
+
+
+        return unsubscribe;
+    }, [router]);
+
+
     const calcularNuevoTotal = (productos) => {
         return productos.reduce((acc, prod) => acc + (prod.precio * prod.cantidad), 0);
     };
 
-    // Elimina un producto del carrito usando su ID
+
     const handleDelete = (idProducto) => {
         setCartData(prevData => {
             const nuevosProductos = prevData.productos.filter(p => p.id !== idProducto);
@@ -70,7 +70,7 @@ export default function Cart() {
         });
     };
 
-    // Actualiza la cantidad de un producto en el carrito
+
     const handleQuantityUpdate = (idProducto, nuevaCantidad) => {
         setCartData(prevData => {
             const nuevosProductos = prevData.productos.map(prod =>
@@ -83,12 +83,12 @@ export default function Cart() {
         });
     };
 
-    // Mientras se está cargando, muestra un spinner
+
     if (loading) {
         return <ActivityIndicator size="large" color="#617957" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
-    // Renderizado principal del componente
+
     return (
         <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             

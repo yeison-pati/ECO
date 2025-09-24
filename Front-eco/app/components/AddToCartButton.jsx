@@ -1,15 +1,15 @@
-//Componente AddToCartButton
-// Renderiza un botón que permite agregar un producto al carrito de compras al ser presionado.
 
-// Importaciones de componentes de React Native y librerías
+
+
+
 import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
-// Importación de la función que llama al backend para agregar productos al carrito
+
 import axiosAgregarProductoAlCarrito from '../../routes/axiosAgregarProductoAlCarrito';
 
-// Props:
-// - idProducto: ID del producto que se desea agregar.
-// - cantidad: Cantidad del producto a agregar.
+
+
+
 export default function AddToCartButton ({ idProducto, cantidad })  {
 
     /**
@@ -28,14 +28,14 @@ export default function AddToCartButton ({ idProducto, cantidad })  {
     };
     
     return (
-        // Botón táctil que llama a handleAddToCart al ser presionado
+
         <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
             <Text style={styles.buttonText}>Añadir al carrito</Text>
         </TouchableOpacity>
     );
 }
 
-// Estilos del componente
+
 const styles = StyleSheet.create({
     button: {
         backgroundColor: '#A5D0A3',

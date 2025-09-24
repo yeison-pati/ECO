@@ -1,9 +1,9 @@
-// src/routes/AxiosRegister.jsx
+
 import { API } from '../api/axiosConfig';
 
 const axiosRegister = async (userData) => {
     try {
-        // Datos básicos que todos los usuarios deben tener
+
         const basicData = {
             nombre: userData.nombre.trim(),
             correo: userData.correo.trim(),

@@ -2,14 +2,14 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useAppNavigation } from '../hooks/useAppNavigation';
 import { formatPrice } from '../../utils/formatPrice';
 import AddButton from './AddButton';
-import {fixImageUrl} from "../../utils/fixImageUrl"; // Puedes cambiarlo por otro botón si el comportamiento es distinto
+import {fixImageUrl} from "../../utils/fixImageUrl";
 
-// Props:
-// - id: ID único del producto.
-// - nombre: Nombre del producto.
-// - precio: Precio del producto.
-// - imagen: URL de la imagen del producto.
-// - onPress: Acción personalizada al presionar el botón (opcional)
+
+
+
+
+
+
 
 export default function ComerceProductCard({ id, nombre, precio, imagen, onPress }) {
     const navigate = useAppNavigation();
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     content: {
         alignItems: 'center',
         flexDirection: 'column',
-        gap: 8, //Si falla usar marginTop
+        gap: 8,
     },
     rectangulo: {
         backgroundColor: '#FFFFFF80',

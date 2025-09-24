@@ -1,23 +1,23 @@
-// Archivo: /api/axiosConfig.js
+
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import IP from "./IP";
 
-// Crear instancia de axios con configuración base
+
 const axiosInstance = axios.create({
   baseURL: `http://${IP}:8080`,
   withCredentials: true,
   timeout: 10000,
 });
 
-// Variable para controlar si ya estamos en proceso de renovación de token
+
 let isRefreshing = false;
 
-// El interceptor añadirá el token a cada solicitud
+
 axiosInstance.interceptors.request.use(
   async (config) => {
     try {
-      // No agregar token para rutas de autenticación
+
       if (
         config.url.includes("/api/auth/login") ||
         config.url.includes("/api/auth/register") 
@@ -25,13 +25,13 @@ axiosInstance.interceptors.request.use(
         return config;
       }
 
-      // Para todas las demás rutas, incluyendo validate-token
+
       const token = await AsyncStorage.getItem("token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
 
-      // ✅ NUEVO: Solo agregar Content-Type para datos JSON
+
       if (config.data && !(config.data instanceof FormData)) {
         config.headers["Content-Type"] = "application/json";
       }
@@ -47,7 +47,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Interceptor mejorado para manejar errores de respuesta
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -56,10 +56,10 @@ axiosInstance.interceptors.response.use(
       error?.response?.status || error.message
     );
 
-    // Crear un error más descriptivo basado en el tipo de error
+
     let customError = new Error();
     
-    // Si hay un error de timeout o de red
+
     if (error.code === "ECONNABORTED") {
       customError.message = "Tiempo de espera agotado. La conexión es muy lenta.";
       customError.type = "TIMEOUT";
@@ -67,7 +67,7 @@ axiosInstance.interceptors.response.use(
       customError.message = "Sin conexión al servidor. Verifica tu conexión a internet.";
       customError.type = "NETWORK";
     } else {
-      // Errores con respuesta del servidor
+
       const status = error.response.status;
       const serverMessage = error.response.data?.message || error.response.data?.error;
       
@@ -79,7 +79,7 @@ axiosInstance.interceptors.response.use(
         case 401:
           customError.message = "Credenciales incorrectas o sesión expirada.";
           customError.type = "UNAUTHORIZED";
-          // Solo limpiar si no estamos ya en proceso de renovación
+
           if (!isRefreshing) {
             await AsyncStorage.removeItem("token");
             await AsyncStorage.removeItem("user");
@@ -114,11 +114,11 @@ axiosInstance.interceptors.response.use(
           customError.type = "UNKNOWN";
       }
       
-      // Preservar la respuesta original para debugging
+
       customError.response = error.response;
     }
     
-    // Preservar información original del error
+
     customError.originalError = error;
     customError.request = error.request;
     
@@ -126,9 +126,9 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-// API endpoints
+
 export const API = {
-  // Auth
+
   auth: {
     login: (credentials) => axiosInstance.post("/api/auth/login", credentials),
     register: (userData) => axiosInstance.post("/api/auth/register", userData),
@@ -138,7 +138,7 @@ export const API = {
       }),
   },
 
-  // Consumidor
+
   consumidor: {
     setImagen: (id, imagen) => {
       const formData = new FormData();
@@ -202,9 +202,9 @@ export const API = {
         }
       );
     },
-    // FUNCIÓN CORREGIDA - Solo una versión
+
     crearProducto: async (idComerciante, formData) => {
-      // Obtener el token correctamente
+
       const token = await AsyncStorage.getItem('token');
       
       return axiosInstance.post(

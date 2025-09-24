@@ -1,13 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, View, StyleSheet } from 'react-native';
 
-// Vistas principales
+
 import Home from '../comerce/Home';
 
-// Iconos personalizados para las tabs
+
 import homeIcon from '../../assets/icons/home.png';
 
-// Crear el navegador de pestañas inferiores
+
 const Tab = createBottomTabNavigator();
 
 export default function ComerceTabs() {
@@ -35,16 +35,16 @@ export default function ComerceTabs() {
                     );
                 },
 
-                tabBarShowLabel: false, // Oculta el nombre debajo de los íconos
+                tabBarShowLabel: false,
 
-                // Estilos generales para la barra de navegación
+
                 tabBarStyle: {
                     backgroundColor: '#FFC5B3',
                     height: 60,
                     paddingBottom: 10,
                 },
 
-                headerShown: false, // Oculta la cabecera superior (header) en las vistas hijas
+                headerShown: false,
             })}
         >
             <Tab.Screen
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         width: size + 20,
         height: size + 20,
         borderRadius: (size + 20) / 2,
-        backgroundColor: focused ? '#CC444180' : 'transparent', // Cambiar el color del circulo si el icono está seleccionado
+        backgroundColor: focused ? '#CC444180' : 'transparent',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop:10,
@@ -70,6 +70,6 @@ const styles = StyleSheet.create({
     icon: (size, focused, color) => ({
         width: size,
         height: size,
-        tintColor: focused ? '#000000' : color, // Cambiar el color del icono si está seleccionado
+        tintColor: focused ? '#000000' : color,
     }),
 });

@@ -29,25 +29,25 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // En Home.js, modificar el useEffect para verificar si estamos en proceso de registro
+
   useEffect(() => {
     if (!user) {
-      // Si no hay usuario, navegar a login
+
       console.error("No hay datos de usuario. Redirigiendo...");
       navigate.replace(ROUTES.SESSION.LOGIN);
       return;
     }
     console.log(user)
-    // Cargar productos con el ID válido
+
     loadProducts();
   }, [user]);
 
-  // En loadProducts de Home.js
+
   const loadProducts = async () => {
     try {
       setLoading(true);
 
-      // Usar el ID directamente desde user
+
       const productosObtenidos = await axiosProductos(user.idUsuario, user.rol);
       setProductos(productosObtenidos);
       setError(null);
@@ -59,7 +59,7 @@ export default function Home() {
     }
   };
 
-  // Mostrar carga o error si es necesario
+
   if (loading) {
     return (
       <View style={[styles.root, styles.centerContent]}>
@@ -203,10 +203,10 @@ const styles = StyleSheet.create({
     paddingTop: 29,
   },
   mensageProduct: {
-    width: "100%", // Ocupa todo el ancho
-    alignItems: "center", // Centra horizontalmente
-    justifyContent: "center", // Centra verticalmente
-    paddingVertical: 20, // Espaciado opcional para mejor visualización
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 20,
   },
   image: {
     width: 325,

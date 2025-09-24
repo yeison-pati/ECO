@@ -21,11 +21,11 @@ export const ROUTES = {
   COMERCE: {
     HOME: '/comerce/Home',
     ADD_PRODUCT: '/comerce/AddProduct',
-    //ORDERS: '/comerce/Orders',
+
   },
 };
 
-// Tipos de parámetros para cada ruta
+
 export const ROUTE_PARAMS = {
   [ROUTES.CONSUMER.PRODUCT]: {
     id: 'string',

@@ -1,16 +1,16 @@
-// Componente ProductSection
-// Este componente representa una sección de productos en una vista de tipo catálogo.
-// Muestra un título de categoría y una lista horizontal de productos usando el componente ProductCard.
 
-// Importación de componentes de React Native
+
+
+
+
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 
-//Importación de componente personalizado
+
 import ProductCard from './ProductCard';
 
-// Props:
-// - title: El título que representa la categoría o tipo de productos que se están mostrando.
-// - products: Un arreglo de objetos que representan los productos. 
+
+
+
 export default function ProductSection ({ title, products }) {
     
     return (
@@ -26,7 +26,7 @@ export default function ProductSection ({ title, products }) {
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
 
-                    // Renderiza un ProductCard por cada producto                    
+
                     <ProductCard 
                         key={item.idProducto?.toString()} 
                         id={item.idProducto} 
@@ -36,14 +36,14 @@ export default function ProductSection ({ title, products }) {
                     />
                 )}
                 keyExtractor={(item, index) => 
-                    item.idProducto?.toString() ?? index.toString()} // Toma el idProducto de la BD Si item.idProducto no existe o es null o undefined, entonces usa el index (la posición del item en la lista)
+                    item.idProducto?.toString() ?? index.toString()}
             />
         </View>
     );
 };
 
 
-//Estilos delcomponente
+
 const styles = StyleSheet.create({
     section: {
         marginVertical: 10,

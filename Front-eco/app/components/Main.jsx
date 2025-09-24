@@ -1,16 +1,16 @@
 import {View, StyleSheet} from 'react-native';
 import Circle from './figures/Circle';
 import Logo from './figures/Logo';
-import { useSafeAreaInsets } from 'react-native-safe-area-context'; //Descargar con npx install react-native-safe-area-context
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function Main() {
 
-    // Obtiene los márgenes seguros del dispositivo (top, bottom, etc.)
+
     const insets = useSafeAreaInsets();
     
   return (
 
-    // View externa con padding dinámico en la parte superior e inferior según el dispositivo
+
     <View style={[styleSheet.root, {paddingTop: insets.top, paddingBottom: insets.bottom}]}>
       <View>
         <Circle size={250} top={-0.68} right={-0.85} />

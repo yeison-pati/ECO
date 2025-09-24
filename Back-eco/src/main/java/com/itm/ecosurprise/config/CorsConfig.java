@@ -19,7 +19,7 @@ public class CorsConfig {
 
         config.addAllowedOrigin("http://localhost:8081");
 
-        // Cambiar estas líneas:
+
         if ("*".equals(ip)) {
             config.addAllowedOriginPattern("*");
         } else {
@@ -27,7 +27,7 @@ public class CorsConfig {
             config.addAllowedOrigin("exp://" + ip + ":8081");
         }
 
-        // Resto igual...
+
         config.addAllowedHeader("*");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("POST");

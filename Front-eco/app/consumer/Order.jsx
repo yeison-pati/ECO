@@ -5,17 +5,17 @@ import axiosLimpiarCarrito from '../../routes/axiosLimpiarCarrito';
 
 const statusStyles = {
   PENDIENTE: {
-    backgroundColor: '#facc15',  // Cambia el fondo
+    backgroundColor: '#facc15',
     icon: require('../../assets/icons/ordenPendiente.png'),
     text: 'Orden pendiente',
   },
   CONFIRMADA: {
-    backgroundColor: '#22c55e', // Cambia el fondo
+    backgroundColor: '#22c55e',
     icon: require('../../assets/icons/ordenConfirmada.png'),
     text: 'Orden confirmada',
   },
   CANCELADA: {
-    backgroundColor: '#ef4444', // Cambia el fondo
+    backgroundColor: '#ef4444',
     icon: require('../../assets/icons/ordenCancelada.png'),
     text: 'Orden cancelada',
   },
@@ -28,8 +28,8 @@ export default function Order() {
 
   const handleBackHome = async () => {
     try {
-      await axiosLimpiarCarrito(); // Vacía el carrito
-      navigation.navigate('Tabs', { screen: 'Inicio' }) // Regresa al inicio
+      await axiosLimpiarCarrito();
+      navigation.navigate('Tabs', { screen: 'Inicio' })
     } catch (error) {
       console.error('Error al vaciar el carrito:', error);
     }
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   icon: {
-    width: 80, // Aumenta el tamaño del icono
-    height: 80, // Aumenta el tamaño del icono
+    width: 80,
+    height: 80,
     resizeMode: 'contain',
   }
 });

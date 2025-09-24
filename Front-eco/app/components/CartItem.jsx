@@ -1,17 +1,17 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-// Componentes personalizados
+
 import QuantitySelector from '../components/QuantitySelector';
 import DeleteCartButton from '../components/DeleteCartButton';
 
-// Utilidades
+
 import { formatPrice } from '../../utils/formatPrice';
 import { fixImageUrl } from '../../utils/fixImageUrl';
 
-// Props:
-// - item: Producto del carrito (con .id, .nombre, .precio, .cantidad, .imagen)
-// - onDelete: función para eliminar el producto (se usa en DeleteCartButton)
-// - onQuantityUpdate: función que recibe nueva cantidad -> Cart se actualiza
+
+
+
+
 
 export default function CartItem({ item, onDelete, onQuantityUpdate }) {
     const handleCantidadChange = (nuevaCantidad) => {

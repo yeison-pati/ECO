@@ -16,14 +16,14 @@ import OverBottom from "../components/alerts/OverBottom";
 export default function RegisterComerce() {
   const insets = useSafeAreaInsets();
   const { user, usuario, updateUserData, setUsuario } = useUser();
-  // useEffect para manejar la actualización del usuario
+
   useEffect(() => {
     setUsuario(null);
 }, []);
 
   const navigate = useAppNavigation();
 
-  // Estados simplificados
+
   const [camComercio, setCamComercio] = useState(null);
   const [nombreCamComercio, setNombreCamComercio] = useState("");
   const [rut, setRutSeleccionado] = useState(null);
@@ -37,7 +37,7 @@ export default function RegisterComerce() {
   const [loading, setLoading] = useState(false);
   
 
-  // Controlador de archivos
+
   useEffect(() => {
     if (rut && rut.name) setRut(rut.name);
     else setRut("");
@@ -46,7 +46,7 @@ export default function RegisterComerce() {
     else setNombreCamComercio("");
   }, [rut, camComercio]);
 
-  // Validación NIT
+
   useEffect(() => {
     setErrorNit(
       nit !== "" &&
@@ -54,7 +54,7 @@ export default function RegisterComerce() {
     );
   }, [nit]);
 
-  // Manejar el envío del formulario
+
   const handleCompleteComerce = async () => {
     try {
       if (errorNit){
@@ -68,10 +68,10 @@ export default function RegisterComerce() {
         return;
       }
 
-      //hacer la carga visible
+
       setLoading(true);
 
-      // Llamar a la API para completar el registro
+
       const resultado = await AxiosCompleteComerce(
         user.idUsuario,
         nit,
@@ -92,8 +92,8 @@ export default function RegisterComerce() {
         throw new Error("No se recibieron datos del servidor");
       }
       
-      // Actualizar el contexto del usuario temporal
-      //para permirtir el redireccionamiento ahora logueados
+
+
       console.log("resultado:", resultado)
       console.log("resultado y data:", resultado.data)
 

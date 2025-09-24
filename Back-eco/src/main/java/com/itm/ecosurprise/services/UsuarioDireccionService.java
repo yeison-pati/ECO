@@ -31,21 +31,21 @@ public class UsuarioDireccionService {
      */
     public ResponseEntity<?> crear(int idUsuario, Direccion direccion) {
         try {
-            // Crear nueva instancia de UsuarioDireccion
+
             UsuarioDireccion usuarioDireccion = new UsuarioDireccion();
             
-            // Obtener el consumidor (usuario) desde el repositorio
+
             Consumidor consumidor = consumidorRepository.findById(idUsuario)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
             
-            // Asignar el usuario y la dirección a la entidad UsuarioDireccion
+
             usuarioDireccion.setUsuario(consumidor);
-            usuarioDireccion.setDireccion(direccionService.crear(direccion)); // Crear dirección
+            usuarioDireccion.setDireccion(direccionService.crear(direccion));
             
-            // Guardar la relación en el repositorio y devolver la respuesta
+
             return ResponseEntity.ok(usuarioDireccionRepository.save(usuarioDireccion));
         } catch (Exception e) {
-            // Si ocurre un error, devolver respuesta HTTP con el error
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }

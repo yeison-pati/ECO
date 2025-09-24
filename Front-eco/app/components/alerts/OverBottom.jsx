@@ -32,18 +32,18 @@ export default function OverBottom({ message, onPress }) {
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(174, 165, 165, 0.53)", // fondo gris semitransparente
-    justifyContent: "flex-end", // para que el contenido esté abajo
+    backgroundColor: "rgba(174, 165, 165, 0.53)",
+    justifyContent: "flex-end",
     alignItems: "center",
     zIndex: 10,
   },
   alertContainer: {
     backgroundColor: "#FFFFFF",
     width: "100%",
-    borderTopLeftRadius: 57, // Sin radio de borde en la parte superior
-    borderTopRightRadius: 57, // Sin radio de borde en la parte superior
-    borderBottomLeftRadius: 0, // Radio de borde solo en la parte inferior
-    borderBottomRightRadius: 0, // Radio de borde solo en la parte inferior
+    borderTopLeftRadius: 57,
+    borderTopRightRadius: 57,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     padding: 20,
     paddingTop: 90,
     alignItems: "center",

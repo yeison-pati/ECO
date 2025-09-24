@@ -14,18 +14,18 @@ public class EstadoOrdenFactory {
     public static void inicializarEstadoPendiente(Orden orden) {
         orden.setEstadoOrden(EstadoOrden.PENDIENTE.name());
     }
-    //cancelada
+
     public static EstadoOrdenState getEstado(Orden orden) {
-        //pendiente
+
         switch (EstadoOrden.valueOf(orden.getEstadoOrden())) {
             case PENDIENTE:
                 return new EstadoPendiente();
             case CONFIRMADA:
                 return new EstadoConfirmada();
             case CANCELADA:
-                return new EstadoCancelada(); // si la implementas
+                return new EstadoCancelada();
             case REEMBOLSADA:
-                return new EstadoReembolsada(); // si la implementas
+                return new EstadoReembolsada();
             default:
                 throw new IllegalArgumentException("Estado desconocido");
         }

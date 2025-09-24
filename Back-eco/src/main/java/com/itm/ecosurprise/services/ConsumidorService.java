@@ -12,7 +12,7 @@ import com.itm.ecosurprise.repositories.IConsumidor;
 public class ConsumidorService {
 
     @Autowired
-    private IConsumidor consumidorRepository; // Repositorio para gestionar la entidad Consumidor
+    private IConsumidor consumidorRepository;
 
 
     /**
@@ -23,7 +23,7 @@ public class ConsumidorService {
         try {
             return ResponseEntity.ok(consumidorRepository.findAll());
         } catch (Exception e) {
-            // Cambiado de 404 a 500 porque es un error interno del servidor, no "no encontrado"
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -38,7 +38,7 @@ public class ConsumidorService {
             return ResponseEntity.ok(consumidorRepository.findById(idConsumidor)
                     .orElseThrow(() -> new RuntimeException("Consumidor no encontrado con ID: " + idConsumidor)));
         } catch (Exception e) {
-            // 404 es correcto aquí porque estamos buscando un recurso específico
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -50,15 +50,15 @@ public class ConsumidorService {
      */
     public ResponseEntity<?> eliminar(int id) {
         try {
-            // Verificar primero si existe el consumidor
+
             if (!consumidorRepository.existsById(id)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Consumidor no encontrado con ID: " + id);
             }
             consumidorRepository.deleteById(id);
-            // Para eliminaciones exitosas, se recomienda usar 204 No Content
+
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            // Si ocurre otro tipo de error, es mejor usar 500
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -73,10 +73,10 @@ public class ConsumidorService {
         try {
             Consumidor consumidorexistente = consumidorRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Consumidor no encontrado con ID: " + id));
-            consumidorexistente.setNombre(consumidor.getNombre()); // Actualizar el nombre del consumidor
-            return ResponseEntity.ok(consumidorRepository.save(consumidorexistente)); // Guardar el consumidor actualizado
+            consumidorexistente.setNombre(consumidor.getNombre());
+            return ResponseEntity.ok(consumidorRepository.save(consumidorexistente));
         } catch (Exception e) {
-            // Si no se encuentra, es 404, pero otros errores deberían ser 500
+
             if (e.getMessage().contains("no encontrado")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             }

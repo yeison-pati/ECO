@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     flex: 2,
     marginLeft: 5,
   },
-  // Estilos para los errores que mantienen la estructura de los inputs
+
   errorRow: {
     flexDirection: 'row',
     marginHorizontal: 20,

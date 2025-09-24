@@ -48,7 +48,7 @@ public class ConsumidorController {
     public ResponseEntity<?> establecerImagen(@PathVariable("id") int idConsumidor, @RequestParam("imagen") MultipartFile imagen,
             @RequestHeader("Authorization") String authHeader) {
         
-        // Extract token from Authorization header
+
         String token = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
@@ -77,7 +77,7 @@ public class ConsumidorController {
         return productoService.obtenerXID(idConsumidor, idProducto);
     }
 
-    // agregar al carrito
+
     @PostMapping("/{idConsumidor}/productos/{idProducto}/agregar")
     public ResponseEntity<?> agregarAlCarrito(@PathVariable int idConsumidor, @PathVariable int idProducto,
             @RequestBody ProductoDTO productoCantidad) {

@@ -32,7 +32,7 @@ export default function Login() {
     );
   }, [correo]);
 
-  // Efecto para mostrar errores del contexto
+
   useEffect(() => {
     if (error) {
       setErrorMessage(error);
@@ -42,7 +42,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      // Validaciones locales
+
       if (!correo || !contrasena) {
         setErrorMessage("Por favor, complete todos los campos");
         setErrorAlert(true);
@@ -55,29 +55,29 @@ export default function Login() {
         return;
       }
       
-      // Limpiar errores previos
+
       setErrorAlert(false);
       setErrorMessage("");
       clearError();
       
-      // Intentar iniciar sesión
+
       const response = await login(correo.toLowerCase(), contrasena);
       
-      // Si llegamos aquí, el login fue exitoso
-      // La navegación se maneja automáticamente en otro lugar (AuthProvider, etc.)
+
+
       console.log("Login exitoso:", response);
       
     } catch (loginError) {
-      // El error ya está manejado en el contexto, solo necesitamos mostrarlo
+
       console.error("Error en handleLogin:", loginError);
-      // El useEffect se encargará de mostrar la alerta cuando 'error' cambie
+
     }
   };
 
   const handleCloseAlert = () => {
     setErrorAlert(false);
     setErrorMessage("");
-    clearError(); // Limpiar el error del contexto también
+    clearError();
   };
 
   return (
@@ -107,7 +107,7 @@ export default function Login() {
             autoCapitalize="none"
             returnKeyType="next"
             onSubmitEditing={() => contrasenaInput.current?.focus()}
-            editable={!loading} // Deshabilitar durante loading
+            editable={!loading}
           />
           {errorCorreo && (
             <ErrorMessage message="Formato de correo electrónico inválido" />
@@ -124,7 +124,7 @@ export default function Login() {
             secureTextEntry
             returnKeyType="done"
             onSubmitEditing={handleLogin}
-            editable={!loading} // Deshabilitar durante loading
+            editable={!loading}
           />
         </View>
 
@@ -133,13 +133,13 @@ export default function Login() {
           onPress={handleLogin}
           variant="dark"
           style={styles.loginButton}
-          disabled={loading} // Deshabilitar durante loading
+          disabled={loading}
         />
 
         <TouchableOpacity
           onPress={navigate.toRegister}
           style={styles.registerLink}
-          disabled={loading} // Deshabilitar durante loading
+          disabled={loading}
         >
           <Text style={[
             styles.registerText,

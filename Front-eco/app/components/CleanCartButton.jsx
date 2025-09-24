@@ -1,17 +1,17 @@
-// Componente CleanCartButton
-// Botón que permite al usuario vaciar completamente el carrito de compras con una confirmación previa.
 
-//Importación de componentes de React Native
+
+
+
 import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 
-// Importación de la función que llama al backend para limpiar el carrito
+
 import axiosLimpiarCarrito from '../../routes/axiosLimpiarCarrito';
 
-// Props:
-//  - onSuccess: Función opcional que se ejecuta después de limpiar exitosamente el carrito, por ejemplo, para actualizar la vista del carrito en pantalla.
+
+
 export default function CleanCartButton ({ onSuccess }) {
 
-    // Muestra una alerta de confirmación antes de vaciar el carrito
+
     const handleCleanCart = async () => {
         Alert.alert(
           'Limpiar carrito',
@@ -25,9 +25,9 @@ export default function CleanCartButton ({ onSuccess }) {
               text: 'Limpiar',
               onPress: async () => {
                 try {
-                  await axiosLimpiarCarrito(); // Llama al backend para vaciar el carrito
+                  await axiosLimpiarCarrito();
                   Alert.alert('Éxito', 'Carrito vaciado correctamente');
-                  if (onSuccess) onSuccess(); //Actualiza el carrito
+                  if (onSuccess) onSuccess();
                 } catch (error) {
                   Alert.alert('Error', 'No se pudo vaciar el carrito');
                 }
@@ -44,7 +44,7 @@ export default function CleanCartButton ({ onSuccess }) {
     );
 }
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
     cleanButton: {
         position: 'absolute',

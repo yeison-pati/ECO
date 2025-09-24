@@ -10,7 +10,7 @@ import com.itm.ecosurprise.repositories.IFecha;
 public class FechaService {
 
     @Autowired
-    private IFecha fechaRepository; // Repositorio para gestionar la entidad Fecha
+    private IFecha fechaRepository;
     
     /**
      * Crea una nueva fecha y la guarda en la base de datos.
@@ -18,7 +18,7 @@ public class FechaService {
      * @return La fecha guardada con su ID asignado.
      */
     public Fecha crear(Fecha fecha) {
-        return fechaRepository.save(fecha); // Guarda la fecha en la base de datos
+        return fechaRepository.save(fecha);
     }
 
     /**
@@ -27,7 +27,7 @@ public class FechaService {
      * @return Mensaje de éxito indicando que la fecha fue eliminada correctamente.
      */
     public String eliminar(int id) {
-        fechaRepository.deleteById(id); // Elimina la fecha por ID
-        return "Direccion eliminada con éxito"; // Mensaje de éxito (nota: podría mejorarse a 'Fecha eliminada con éxito')
+        fechaRepository.deleteById(id);
+        return "Direccion eliminada con éxito";
     }
 }

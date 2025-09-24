@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 
-//Importaciones de componentes personalizados
+
 import CustomButton from './components/buttons/CustomButton';
 import Font from './components/aesthetic/Font';
 import Circle from './components/figures/Circle';

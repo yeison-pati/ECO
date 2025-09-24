@@ -1,4 +1,4 @@
-//Importación de componentes de React Native y librerías
+
 import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axiosConfirmarOrden from '../../routes/axiosConfirmarOrden';
@@ -10,15 +10,15 @@ export default function ConfirmButton() {
     try {
       const fechaActual = new Date();
 
-      // Construimos el objeto con la estructura requerida
+
       const ordenData = {
         fechaOrden: {
           anio: fechaActual.getFullYear(),
-          mes: fechaActual.getMonth() + 1, // Los meses en JS van de 0 a 11
+          mes: fechaActual.getMonth() + 1,
           dia: fechaActual.getDate()
         },
         direccionEntrega: {
-          idDireccion: 3 //cambiar
+          idDireccion: 3
         },
         pago: {
           estadoPago: 'PENDIENTE',
@@ -26,9 +26,9 @@ export default function ConfirmButton() {
         }
       };
 
-      const createdOrder = await axiosConfirmarOrden(ordenData); // Llamada a la función confirmación
+      const createdOrder = await axiosConfirmarOrden(ordenData);
 
-        // Navegamos a la pantalla Order con la orden creada
+
         navigation.navigate('Order', { order: createdOrder });
         } catch (error) {
             console.error('Error al crear la orden:', error);
@@ -43,7 +43,7 @@ export default function ConfirmButton() {
   );
 }
 
-// Estilos del componente
+
 const styles = StyleSheet.create({
   proceedButton: {
     marginVertical: 20,

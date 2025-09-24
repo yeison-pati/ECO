@@ -1,16 +1,16 @@
-// Componente ProductCard
-// Muestra una tarjeta individual con información del producto (imagen, nombre, precio) y un botón para ver más detalles.
 
-// Importaciones de componentes de React Native
+
+
+
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { formatPrice } from '../../utils/formatPrice';
 import { useAppNavigation } from '../hooks/useAppNavigation';
 
-// Props:
-// - id: ID único del producto. Se usa para navegar a la pantalla de detalles.
-// - nombre: Nombre del producto.
-// - precio: Precioo del producto.
-// - imagen: URL de la imagen del producto.
+
+
+
+
+
 export default function ProductCard({ id, nombre, precio, imagen }) {
     const navigate = useAppNavigation();
 
@@ -30,7 +30,7 @@ export default function ProductCard({ id, nombre, precio, imagen }) {
     );
 }
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
     card: {
         backgroundColor: '#F7E1AF80',
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     content: {
         alignItems: 'center',
         flexDirection: 'column',
-        gap: 8, //Si falla usar marginTop
+        gap: 8,
     },
     rectangulo: {
         backgroundColor: '#FFFFFF80',

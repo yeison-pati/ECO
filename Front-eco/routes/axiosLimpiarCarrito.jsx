@@ -1,6 +1,6 @@
-//axiosLimpiarCarrito
-// Función asincrónica que realiza una solicitud GET al backend para vaciar completamente
-// el carrito de compras del usuario.
+
+
+
 
 import { API } from '../api/axiosConfig';
 

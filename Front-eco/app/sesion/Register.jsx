@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-    paddingBottom: 30, // Espacio extra al final
+    paddingBottom: 30,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

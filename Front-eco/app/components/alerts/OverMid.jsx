@@ -38,11 +38,11 @@ export default function OverMid({titulo, mensaje, op1, op2, onCancel, onConfirm 
 }
 
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
     overlay: {
       ...StyleSheet.absoluteFillObject,
-      backgroundColor: "rgba(174, 165, 165, 0.53)", // fondo gris semitransparente
+      backgroundColor: "rgba(174, 165, 165, 0.53)",
       justifyContent: "center",
       alignItems: "center",
       zIndex: 10,
@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     alertContainer: {
       backgroundColor: "#FFFFFF",
       width: "100%",
-      borderTopLeftRadius: 57, // Sin radio de borde en la parte superior
-      borderTopRightRadius: 57, // Sin radio de borde en la parte superior
-      borderBottomLeftRadius: 57, // Radio de borde solo en la parte inferior
-      borderBottomRightRadius: 57, // Radio de borde solo en la parte inferior
+      borderTopLeftRadius: 57,
+      borderTopRightRadius: 57,
+      borderBottomLeftRadius: 57,
+      borderBottomRightRadius: 57,
       padding: 20,
       paddingTop: 90,
       alignItems: "center",

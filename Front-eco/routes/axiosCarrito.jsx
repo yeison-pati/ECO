@@ -1,9 +1,9 @@
-//axiosCarrito
-// Función asincrónica que realiza una solicitud GET al backend para obtener los productos
-// actualmente agregados al carrito de compras, junto con el total acumulado.
+
+
+
 
 import { API } from '../api/axiosConfig';
-import { fixImageUrl } from '../utils/fixImageUrl'; // Función que corrige las URLs de imágenes locales
+import { fixImageUrl } from '../utils/fixImageUrl';
 
 const axiosCarrito = async (idConsumidor) => {
     try {

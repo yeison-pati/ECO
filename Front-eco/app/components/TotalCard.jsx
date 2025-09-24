@@ -1,14 +1,14 @@
-// Componente TotalCard
-// Card que muestra el total a pagar del carrito de compras. Formatea el número recibido como precio.
+
+
  
-//Importación de componentes de React Native
+
 import { StyleSheet, Text, View } from 'react-native'
 
-//Importación de función que formatea precios (ej: 50000 => 50.000)
+
 import { formatPrice } from '../../utils/formatPrice'
 
-//  Props:
-//  - total: Valor total del carrito (viene del backend).
+
+
 export default function TotalCard ({total}) {
     return (
             <View style={styles.summaryRow}>
@@ -22,7 +22,7 @@ export default function TotalCard ({total}) {
 }
 
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
     summaryRow: {
         flexDirection: 'row',

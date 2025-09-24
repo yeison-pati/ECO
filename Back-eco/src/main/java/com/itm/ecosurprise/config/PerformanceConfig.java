@@ -17,13 +17,13 @@ public class PerformanceConfig implements WebMvcConfigurer {
     public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         
-        // Configuración conservadora de memoria
+
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(4);
         executor.setQueueCapacity(50);
         executor.setThreadNamePrefix("EcoSurprise-");
         
-        // Configuración para liberar threads inactivos rápidamente
+
         executor.setKeepAliveSeconds(60);
         executor.setAllowCoreThreadTimeOut(true);
         
@@ -36,7 +36,7 @@ public class PerformanceConfig implements WebMvcConfigurer {
      */
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setDefaultTimeout(30000); // 30 segundos
+        configurer.setDefaultTimeout(30000);
         configurer.setTaskExecutor(taskExecutor());
     }
 }

@@ -1,14 +1,14 @@
-// Componente ProceedButton
-// Botón que permite al usuario pasar del carrito a la spantalla para confirmar la orden
 
-//Importación de componentes de React Native y librerías
+
+
+
 import { TouchableOpacity, Text,  StyleSheet } from 'react-native'
 import { useAppNavigation } from '../hooks/useAppNavigation';
 
 export default function ProceedButton({cartData}) {
-    const navigate = useAppNavigation(); // Hook de navegación
+    const navigate = useAppNavigation();
 
-    // Navega a la pantalla para confirmar laorden
+
     const handlePress = () => {
         navigate.toPayment(cartData.total);
     };
@@ -20,7 +20,7 @@ export default function ProceedButton({cartData}) {
     )
 }
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
     proceedButton: {
         marginVertical: 20,

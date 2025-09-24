@@ -21,7 +21,6 @@ public class AuthController {
     
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
-        System.out.println("Login request: " + credentials);
         return authService.login(credentials.get("correo"), credentials.get("contrasena"));
     }
 
@@ -37,7 +36,7 @@ public class AuthController {
             boolean isValid = authService.validateToken(token);
             
             if (isValid) {
-                // Si el token es válido, generar uno nuevo
+
                 String newToken = authService.renewToken(token);
                 return ResponseEntity.ok(Map.of(
                     "valid", true,

@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import com.itm.ecosurprise.models.Comerciante;
 import com.itm.ecosurprise.models.Producto;
 import com.itm.ecosurprise.repositories.IComerciante;
+import com.itm.ecosurprise.repositories.IProducto;
 
 @Service
 public class ComercianteService {
@@ -26,13 +27,15 @@ public class ComercianteService {
     @Autowired
     private IComerciante comercianteRepository;
     @Autowired
+    private IProducto productoRepository;
+    @Autowired
     private HttpServletRequest request;
 
     public ResponseEntity<?> obtenerTodos() {
         try {
             return ResponseEntity.ok(comercianteRepository.findAll());
         } catch (Exception e) {
-            // INTERNAL_SERVER_ERROR en lugar de NOT_FOUND para errores de servidor
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -42,7 +45,7 @@ public class ComercianteService {
             return ResponseEntity.ok(comercianteRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Comerciante no encontrado con ID: " + id)));
         } catch (Exception e) {
-            // NOT_FOUND es apropiado para recursos no encontrados
+
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -53,10 +56,10 @@ public class ComercianteService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Comerciante no encontrado con ID: " + id);
             }
             comercianteRepository.deleteById(id);
-            // NO_CONTENT es más apropiado para eliminaciones exitosas
+
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            // INTERNAL_SERVER_ERROR para errores del servidor
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -71,22 +74,25 @@ public class ComercianteService {
             if (e.getMessage().contains("no encontrado")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             }
-            // INTERNAL_SERVER_ERROR para otros errores
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     public ResponseEntity<?> obtenerProductos(int idComerciante) {
         try {
-            Comerciante comerciante = comercianteRepository.findById(idComerciante)
-                    .orElseThrow(() -> new RuntimeException("Comerciante no encontrado"));
-            List<Producto> productos = comerciante.getProductos();
+            if (!comercianteRepository.existsById(idComerciante)) {
+                throw new RuntimeException("Comerciante no encontrado");
+            }
+            
+
+            List<Producto> productos = productoRepository.findByComercianteId(idComerciante);
             return ResponseEntity.ok(productos);
         } catch (Exception e) {
             if (e.getMessage().contains("no encontrado")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             }
-            // INTERNAL_SERVER_ERROR para otros errores
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -104,7 +110,7 @@ public class ComercianteService {
             if (e.getMessage().contains("no encontrado")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             }
-            // INTERNAL_SERVER_ERROR para otros errores
+
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
@@ -116,11 +122,11 @@ public class ComercianteService {
         }
         Comerciante comerciante = comercianteOpt.get();
         comerciante.setNit(nit);
-        // Lógica para guardar los PDFs y setear las fileas en el modelo
+
         String ccPath = guardarArchivo(camaraComercio, "camaraComercio", id);
         String rutPath = guardarArchivo(rut, "file", id);
 
-        // Verificar si hubo errores al guardar los archivos
+
         if (ccPath.startsWith("error") || rutPath.startsWith("error")) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar los archivos: " +
                     (ccPath.startsWith("error") ? ccPath : rutPath));

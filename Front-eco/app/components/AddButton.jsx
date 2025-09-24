@@ -1,13 +1,13 @@
-// Componente AddButton
-// Representa un botón redondo que muestra un ícono de "agregar".
-// Al presionar el botón, se ejecuta una función que recibe como prop.
 
-// Importaciones componentes de React Native
+
+
+
+
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native'
 
-// Props:
-// - size: tamaño del botón e ícono (valor por defecto: 30)
-// - onPress: función que se ejecuta al presionar el botón
+
+
+
 export default function AddButton ({ size = 30, onPress }) {
   return (
     <View>
@@ -29,7 +29,7 @@ export default function AddButton ({ size = 30, onPress }) {
   )
 }
 
-//Estilos del componente
+
 const styles = StyleSheet.create({
     background: (size) => ({
       backgroundColor: '#FFFEF5',
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     button: (size) => ({
       width: size + 2,
       height: size + 2,
-      borderRadius: (size + 2) / 2, // Hace el botón redondo
+      borderRadius: (size + 2) / 2,
       justifyContent: 'center',
       alignItems: 'center',
       overflow: 'hidden',

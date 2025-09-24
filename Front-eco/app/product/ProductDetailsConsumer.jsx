@@ -1,58 +1,58 @@
-// ProductDetailsConsumer
-// Pantalla de detalles de un producto individual. Se encarga de obtener los datos
-// desde el backend según el `id` recibido desde la navegación, mostrar los detalles
-// del producto (nombre, imagen, precio, descripción) y permitir al usuario
-// seleccionar una cantidad y agregarlo al carrito.
 
-// Importaciones de componentes de React Native y librerías
+
+
+
+
+
+
 import { View, Text, Image, ScrollView, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'; 
 import { useAppNavigation } from '../hooks/useAppNavigation';
 
-//Importaciones de funciones
-import axiosProductoPorId from '../../routes/axiosProductoPorId'; // Llama al backend para obtener los datos del producto seleccionado
-import { fixImageUrl } from '../../utils/fixImageUrl'; //Arregla el URL de las imágenes
-import {formatPrice} from '../../utils/formatPrice'; // Formatea precios (ej: 50000 => 50.000)
 
-//Importaciones de componentes personalizados
+import axiosProductoPorId from '../../routes/axiosProductoPorId';
+import { fixImageUrl } from '../../utils/fixImageUrl';
+import {formatPrice} from '../../utils/formatPrice';
+
+
 import BackButton from '../components/buttons/behavorial/BackButton';
 import QuantitySelector from '../components/QuantitySelector';
 import AddToCartButton from '../components/AddToCartButton';
 
-// Props:
-// route: Objeto que contiene el ID del producto del cual se muestran los detalles.
+
+
 export default function ProductDetailsConsumer({ route }) {
-    const { id } = route.params; //El id viene de ProductCard
-    const insets = useSafeAreaInsets(); // Hook que obtiene los márgenes seguros del dispositivo (top, bottom, etc.)
+    const { id } = route.params;
+    const insets = useSafeAreaInsets();
     const navigate = useAppNavigation();
 
-    const [producto, setProducto] = useState(null); // Estado para detalles del producto
-    const [loading, setLoading] = useState(true); // Estado para el indicador de carga
-    const [cantidad, setCantidad] = useState(1); // Estado para la cantidad
+    const [producto, setProducto] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [cantidad, setCantidad] = useState(1);
 
-    // Al cargar la pantalla, obtenemos los datos del producto
+
     useEffect(() => {
         const obtenerProducto = async () => {
             try {
-                const data = await axiosProductoPorId(id);  // Llama al backend
-                setProducto(data);                          // Guarda los datos
+                const data = await axiosProductoPorId(id);
+                setProducto(data);
             } catch (error) {
                 console.error('Error al obtener el producto:', error);
             } finally {
-                setLoading(false);                           // Oculta el spinner
+                setLoading(false);
             }
         };
 
         obtenerProducto();
     }, [id]);
 
-    // Mientras esta cargando muestra un spinner
+
     if (loading) {
         return <ActivityIndicator size="large" color="#617957" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
-    // Desestructuramos los datos del producto
+
     const { nombre, precio, descripcion, imagen } = producto;
 
 
@@ -112,17 +112,17 @@ export default function ProductDetailsConsumer({ route }) {
     );
 }
 
-//Estilos de la pantalla 
+
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#FEF3EF', // Fondos general
+        backgroundColor: '#FEF3EF',
     },
     container: {
         flex: 1,
     },
     header: {
-        backgroundColor: '#F7B29D80', // Fondo rosa en la parte superior
+        backgroundColor: '#F7B29D80',
         paddingVertical: 10,
         borderRadius: 20,
         alignItems: 'center',

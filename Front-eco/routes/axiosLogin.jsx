@@ -6,7 +6,7 @@ const axiosLogin = async (correo, contrasena) => {
             throw new Error('Correo y contraseña son requeridos');
         }
 
-        // El backend espera un objeto con correo y contrasena
+
         const credentials = {
             correo: correo.trim(),
             contrasena: contrasena.trim()
@@ -14,7 +14,7 @@ const axiosLogin = async (correo, contrasena) => {
         
         const response = await API.auth.login(credentials);
         
-        // Validación de la respuesta
+
         if (!response || !response.data) {
             throw new Error('Respuesta inválida del servidor');
         }
@@ -22,7 +22,7 @@ const axiosLogin = async (correo, contrasena) => {
         return response.data;
     } catch (error) {
         console.error('Error en login:', error);
-        // Aseguramos que siempre se lance un error con mensaje
+
         throw new Error(error.response?.data?.message || error.message || 'Error en el inicio de sesión');
     }
 };

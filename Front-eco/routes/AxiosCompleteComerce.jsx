@@ -1,16 +1,16 @@
-// AxiosCompletarRegistroComerciante.jsx
+
 import { API } from '../api/axiosConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AxiosCompleteComerce = async (id, nit, camaraComercio, rut) => {
     try {
-        // Preparar el formData con el formato correcto para los archivos
+
         const formData = new FormData();
         
-        // Añadir el NIT como un campo de texto normal
+
         formData.append('nit', nit);
         
-        // Asegurarse de que los archivos tengan el formato correcto para el backend
+
         if (camaraComercio?.file) {
             formData.append("camaraComercio", camaraComercio.file);
           } else {
@@ -24,7 +24,7 @@ const AxiosCompleteComerce = async (id, nit, camaraComercio, rut) => {
           }
           console.log(camaraComercio.file);
 
-        // Asegurarse de que los archivos tengan el formato correcto para el backend
+
         if (rut?.file) {
             formData.append("rut", rut.file);
           } else {
@@ -37,10 +37,10 @@ const AxiosCompleteComerce = async (id, nit, camaraComercio, rut) => {
             formData.append("rut", rut.file);
           }
           console.log(rut.file);
-        // Obtener el token actual para incluirlo en la petición
+
         const token = await AsyncStorage.getItem('token');
         
-        // Log para depuración
+
         console.log('Enviando completarRegistro:', {
             id,
             nit,
@@ -58,7 +58,7 @@ const AxiosCompleteComerce = async (id, nit, camaraComercio, rut) => {
             tokenPresente: token ? true : false
         });
         
-        // Llamar a la API con el formData y configuración correcta
+
         return API.comerciante.completarRegistro(id, formData, token);
     } catch (error) {
         console.error('Error en AxiosCompleteComerce:', error);

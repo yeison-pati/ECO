@@ -5,10 +5,10 @@ export function useAppNavigation() {
   const router = useRouter();
 
   const navigate = {
-    // Navegación principal
+
     toIndex: () => router.replace(ROUTES.INDEX),
 
-    // Navegación de sesión
+
     toLogin: () => router.push(ROUTES.SESSION.LOGIN),
     toRegister: () => router.push(ROUTES.SESSION.REGISTER),
     toSelectProfile: () => router.push(ROUTES.SESSION.SELECT_PROFILE),
@@ -16,7 +16,7 @@ export function useAppNavigation() {
     toRegisterComerce: () => router.push(ROUTES.SESSION.REGISTER_COMERCE),
     toRegisterRider: () => router.push(ROUTES.SESSION.REGISTER_RIDER),
 
-    // Navegación del consumidor
+
     toConsumerHome: () => router.replace(ROUTES.CONSUMER.HOME),
     toConsumerCart: () => router.push(ROUTES.CONSUMER.CART),
     toProductDetails: (id) => router.push(ROUTES.CONSUMER.PRODUCT(id)),
@@ -29,13 +29,13 @@ export function useAppNavigation() {
       params: { order }
     }),
 
-    // Navegación del comerciante
+
     toComerceHome: () => router.replace(ROUTES.COMERCE.HOME),
     toAddProduct: () => router.push(ROUTES.COMERCE.ADD_PRODUCT),
     toComerceOrders: () => router.push(ROUTES.COMERCE.ORDERS),
     
 
-    // Navegación general
+
     back: () => router.back(),
     replace: (route) => router.replace(route),
   };

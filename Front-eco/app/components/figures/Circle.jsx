@@ -11,8 +11,8 @@ const Circle = ({ size = 100, top, left, right, bottom, color = "rgba(197, 29, 4
                     position: "absolute",
                     width: size,
                     height: size,
-                    borderRadius: size / 2, // Se ajusta para mantener la forma circular
-                    top: top ? screenHeight * top : undefined, // Ajuste relativo a la pantalla
+                    borderRadius: size / 2,
+                    top: top ? screenHeight * top : undefined,
                     left: left ? screenWidth * left : undefined,
                     right: right ? screenWidth * right : undefined,
                     bottom: bottom ? screenHeight * bottom : undefined,

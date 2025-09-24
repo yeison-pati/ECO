@@ -1,4 +1,4 @@
-// screens/AddProduct.js - Versión sin espacio en blanco
+
 import { StatusBar } from "expo-status-bar";
 import { ScrollView, View, StyleSheet, TextInput } from "react-native";
 import { useRef, useState } from "react";
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   container: {
-    paddingBottom: 20, // Padding fijo en lugar de usar insets
+    paddingBottom: 20,
   },
   title: {
     paddingLeft: 20,
@@ -227,6 +227,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     marginHorizontal: 20,
-    marginBottom: 20, // Espacio controlado al final
+    marginBottom: 20,
   },
 });

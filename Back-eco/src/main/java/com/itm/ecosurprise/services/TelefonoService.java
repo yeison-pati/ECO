@@ -50,23 +50,23 @@ public class TelefonoService {
      */
     public ResponseEntity<?> crear(int idUsuario, Telefono telefono) {
         try {
-            // Obtener el usuario por su ID
+
             Usuario usuario = usuarioRepository.findById(idUsuario)
                     .orElseThrow(() -> new RuntimeException("Error al obtener usuario"));
 
-            // Verificar si el usuario ya tiene un teléfono asignado
+
             if (usuario.getTelefono() != null) {
-                // Cambiado a 409 Conflict - es más apropiado para recursos que ya existen
+
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                         .body("El " + usuario.getRol() + " ya tiene un teléfono asignado.");
             }
 
-            // Asociar el teléfono al usuario
+
             telefono.setUsuario(usuario);
-            // Para creaciones exitosas se recomienda usar 201 Created
+
             return ResponseEntity.status(HttpStatus.CREATED).body(telefonoRepository.save(telefono));
         } catch (Exception e) {
-            // Diferenciamos entre "no encontrado" y otros errores
+
             if (e.getMessage().contains("obtener usuario")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             }

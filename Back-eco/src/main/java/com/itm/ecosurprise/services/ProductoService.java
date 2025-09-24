@@ -87,7 +87,7 @@ public class ProductoService {
 
         try {
             Map<String, Object> productoMap;
-            // Parsear JSON string a Map manualmente
+
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 productoMap = objectMapper.readValue(producto, Map.class);
@@ -101,25 +101,25 @@ public class ProductoService {
                     .orElseThrow(() -> new RuntimeException("Comerciante no encontrado"));
 
             if (imagen != null && !imagen.isEmpty()) {
-                // Generar nombre único para la imagen
+
                 String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
 
-                // Ruta local donde se guardará
+
                 String carpeta = "src/main/resources/static/productos/";
                 File directorio = new File(carpeta);
                 if (!directorio.exists())
                     directorio.mkdirs();
 
-                // Guardar archivo en disco
+
                 Path ruta = Paths.get(carpeta + nombreArchivo);
                 Files.copy(imagen.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
 
-                // Construir URL pública de acceso
-                // HTTP://localhost:8080
+
+
                 String urlBase = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String urlImagen = urlBase + "/productos/" + nombreArchivo;
 
-                // Guardar solo la ruta o URL
+
                 productoAux.setImagen(urlImagen);
             } else {
                 throw new RuntimeException("Imagen vacía");
@@ -133,7 +133,7 @@ public class ProductoService {
             Object precioObj = productoMap.get("precio");
             Object stockObj = productoMap.get("stock");
 
-// Manejar tanto Integer como String
+
             int precio = precioObj instanceof Integer ?
                     (Integer) precioObj :
                     Integer.parseInt(precioObj.toString());
@@ -169,7 +169,7 @@ public class ProductoService {
                     .orElseThrow(() -> new RuntimeException("Comerciante no encontrado"));
 
             Map<String, Object> productoMap;
-            // Parsear JSON string a Map manualmente
+
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 productoMap = objectMapper.readValue(producto, Map.class);
@@ -180,25 +180,25 @@ public class ProductoService {
             Producto productoAux = new Producto();
 
             if (imagen != null && !imagen.isEmpty()) {
-                // Generar nombre único para la imagen
+
                 String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
 
-                // Ruta local donde se guardará
+
                 String carpeta = "src/main/resources/static/productos/";
                 File directorio = new File(carpeta);
                 if (!directorio.exists())
                     directorio.mkdirs();
 
-                // Guardar archivo en disco
+
                 Path ruta = Paths.get(carpeta + nombreArchivo);
                 Files.copy(imagen.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
 
-                // Construir URL pública de acceso
-                // HTTP://localhost:8080
+
+
                 String urlBase = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String urlImagen = urlBase + "/productos/" + nombreArchivo;
 
-                // Guardar solo la ruta o URL
+
                 productoAux.setImagen(urlImagen);
             } else {
                 throw new RuntimeException("Imagen vacía");
@@ -212,7 +212,7 @@ public class ProductoService {
             Object precioObj = productoMap.get("precio");
             Object stockObj = productoMap.get("stock");
 
-// Manejar tanto Integer como String
+
             int precio = precioObj instanceof Integer ?
                     (Integer) precioObj :
                     Integer.parseInt(precioObj.toString());

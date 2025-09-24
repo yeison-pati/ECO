@@ -1,9 +1,9 @@
-//Importaciones de componentes de React Native y librerías
+
 import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import axiosCarrito from '../../routes/axiosCarrito'; // Llama a tu axiosCarrito
+import axiosCarrito from '../../routes/axiosCarrito';
 
 import BackButton from '../components/buttons/behavorial/BackButton';
 import TotalCard from '../components/TotalCard';
@@ -11,16 +11,16 @@ import ConfirmButton from '../components/ConfirmButton';
 
 export default function Payment() {
 
-  const [total, setTotal] = useState(0); // Guarda el total aquí
-    const [loading, setLoading] = useState(true); // Controla el estado de carga
+  const [total, setTotal] = useState(0);
+    const [loading, setLoading] = useState(true);
     const insets = useSafeAreaInsets();
 
-    // Función para obtener el carrito del backend
+
     const fetchCartTotal = async () => {
         try {
             setLoading(true);
-            const data = await axiosCarrito(); // Obtén los datos del carrito
-            setTotal(data.total); // Establece el total recibido
+            const data = await axiosCarrito();
+            setTotal(data.total);
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
         } finally {
@@ -29,7 +29,7 @@ export default function Payment() {
     };
 
     useEffect(() => {
-        fetchCartTotal(); // Ejecuta la función cuando el componente se monte
+        fetchCartTotal();
     }, []);
 
     if (loading) {
@@ -70,7 +70,7 @@ export default function Payment() {
   );
 }
 
-//Estilos de la pantalla
+
 const styles = StyleSheet.create({
   root: {
       flex: 1,
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
       paddingBottom: 10,
       paddingTop: 30,
       paddingHorizontal: 20,
-      backgroundColor: '#DEFFD2B3', //Color al 70%
+      backgroundColor: '#DEFFD2B3',
       borderRadius: 25,
   },
   imagen:{
