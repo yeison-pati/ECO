@@ -1,25 +1,21 @@
 import { View, Text, Image, ScrollView, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useEffect, useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context'; 
-import { useAppNavigation } from '../hooks/useAppNavigation';
-import axiosProductoPorId from '../../routes/axiosProductoPorId';
-import { fixImageUrl } from '../../utils/fixImageUrl';
-import {formatPrice} from '../../utils/formatPrice';
-import BackButton from '../components/buttons/behavorial/BackButton';
-import QuantitySelector from '../components/QuantitySelector';
-import AddToCartButton from '../components/AddToCartButton';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useLocalSearchParams } from 'expo-router';
+import axiosProductoPorId from '../../../routes/axiosProductoPorId';
+import { fixImageUrl } from '../../../utils/fixImageUrl';
+import { formatPrice } from '../../../utils/formatPrice';
+import BackButton from '../../components/buttons/behavorial/BackButton';
+import QuantitySelector from '../../components/QuantitySelector';
+import AddToCartButton from '../../components/AddToCartButton';
 
-
-
-export default function ProductDetailsConsumer({ route }) {
-    const { id } = route.params;
+export default function ProductDetails() {
+    const { id } = useLocalSearchParams();
     const insets = useSafeAreaInsets();
-    const navigate = useAppNavigation();
 
     const [producto, setProducto] = useState(null);
     const [loading, setLoading] = useState(true);
     const [cantidad, setCantidad] = useState(1);
-
 
     useEffect(() => {
         const obtenerProducto = async () => {
@@ -36,66 +32,63 @@ export default function ProductDetailsConsumer({ route }) {
         obtenerProducto();
     }, [id]);
 
-
     if (loading) {
         return <ActivityIndicator size="large" color="#617957" style={{ flex: 1, justifyContent: 'center' }} />;
     }
 
+    if (!producto) {
+        return (
+            <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+                <View style={styles.container}>
+                    <BackButton />
+                    <Text style={styles.error}>Producto no encontrado</Text>
+                </View>
+            </SafeAreaView>
+        );
+    }
 
     const { nombre, precio, descripcion, imagen } = producto;
-
 
     return (
         <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.container}>
-
-                {/* Botón de regreso en la esquina superior izquierda */}
                 <BackButton />
 
-                {/* Contenedor con la imagen del producto */}
                 <View style={styles.header}>
-                    <Image 
+                    <Image
                         source={{ uri: fixImageUrl(imagen) }}
-                        style={styles.image} 
+                        style={styles.image}
                     />
                 </View>
 
-                {/* Scroll para el contenido del producto */}
-                <ScrollView 
+                <ScrollView
                     contentContainerStyle={styles.scrollContent}
                     showsVerticalScrollIndicator={false}
                     keyboardShouldPersistTaps="handled"
                 >
-                    
                     <View style={styles.infoWrapper}>
-                        
-                            <Text style={styles.name}>{nombre}</Text>
-                            
-                            <View style={styles.priceWrapper}>
-                                
-                                <Text style={styles.price}>${formatPrice(precio)}</Text>
-                                
-                                <QuantitySelector style={styles.selector} 
-                                    cantidad={1}  
-                                    onQuantityChange={setCantidad}  
-                                />
-                            </View>
+                        <Text style={styles.name}>{nombre}</Text>
 
-                            {/* Descripción del producto */}
-                            <Text style={styles.detailsTitle}>Detalles</Text>
-                            <Text style={styles.description}>{descripcion}</Text>
+                        <View style={styles.priceWrapper}>
+                            <Text style={styles.price}>${formatPrice(precio)}</Text>
+                            <QuantitySelector style={styles.selector}
+                                cantidad={cantidad}
+                                onQuantityChange={setCantidad}
+                            />
+                        </View>
+
+                        <Text style={styles.detailsTitle}>Detalles</Text>
+                        <Text style={styles.description}>{descripcion}</Text>
                     </View>
                 </ScrollView>
-                
-                <View style={styles.footer}>
-                    <AddToCartButton idProducto={id} cantidad={cantidad} producto={producto}/> {/* Pasamos el id del producto actual y la cantidad seleccionada*/}
-                </View>
 
+                <View style={styles.footer}>
+                    <AddToCartButton idProducto={id} cantidad={cantidad} producto={producto} />
+                </View>
             </View>
         </SafeAreaView>
     );
 }
-
 
 const styles = StyleSheet.create({
     safeArea: {
@@ -163,5 +156,11 @@ const styles = StyleSheet.create({
         padding: 10,
         width: '100%',
         alignItems: 'center',
+    },
+    error: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#93181B',
+        marginTop: 50,
     },
 });

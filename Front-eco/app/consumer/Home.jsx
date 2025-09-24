@@ -63,14 +63,12 @@ export default function Home(){
     }, {});
 
     return (
-        <>
-            { /* Contenedor principal padding superior e inferior basado en los insets del dispositivo */}
+        
             <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
                 <ScrollView>
-                    {/* Banner promocional en la parte superior */}
+                
                     <PromoBanner />
                     
-                    {/* Sección para cada tipo de producto */}
                     {Object.entries(productosPorTipo).map(([tipo, productosDelTipo]) => (
                         <ProductSection key={tipo} title={tipo} products={productosDelTipo} />
                     ))}
@@ -79,7 +77,6 @@ export default function Home(){
                 </ScrollView>
                 <LogoutButton/>
             </View>
-        </>
     )
 }
 

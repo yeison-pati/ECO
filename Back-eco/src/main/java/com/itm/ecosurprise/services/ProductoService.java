@@ -162,7 +162,7 @@ public class ProductoService {
 
         try {
 
-            Producto productoExistente = productoRepository.findById(idProducto)
+            productoRepository.findById(idProducto)
                     .orElseThrow(() -> new RuntimeException("Producto no encontrado, intente de nuevo"));
 
             Comerciante comerciante = comercianteRepository.findById(idComerciante)

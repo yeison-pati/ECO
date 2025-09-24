@@ -65,6 +65,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/validate-token").permitAll()
                 .requestMatchers("/productos/**").permitAll()
                 .requestMatchers("/usuarios/**").permitAll()
+                .requestMatchers("/uploads/**").permitAll()
+                .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/api/error").permitAll()
 
                 .requestMatchers("/api/consumidores/**").hasAuthority("CONSUMIDOR")

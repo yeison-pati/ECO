@@ -2,6 +2,7 @@ package com.itm.ecosurprise.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
@@ -46,6 +47,7 @@ public class Producto {
   @JsonIgnoreProperties(value = {
       "usuario", "producto"
   })
+  @JsonIgnore
   private List<Puntuacion> puntuaciones;
 
 }

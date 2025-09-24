@@ -15,11 +15,9 @@ export default function ProductSection ({ title, products }) {
     
     return (
         <View style={styles.section}>
-
-            {/* Título de la sección */}
+            
             <Text style={styles.title}>{title}</Text>
 
-             {/* Lista de productos en formato horizontal */}
             <FlatList
                 data={products}
                 horizontal
