@@ -20,7 +20,7 @@ export default function ProductDetails() {
     const [cantidad, setCantidad] = useState(1);
 
     useEffect(() => {
-        if (!user?.id) return;
+        if (!user?.id || user.id === "undefined") return;
 
         const obtenerProducto = async () => {
             try {

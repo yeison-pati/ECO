@@ -29,7 +29,7 @@ export default function Cart() {
 
 
     const fetchCart = async () => {
-        if (!user?.id) {
+        if (!user?.id || user.id === "undefined") {
             setLoading(false);
             return;
         }
