@@ -2,7 +2,8 @@ import { View, Text, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator } f
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppNavigation } from '../hooks/useAppNavigation';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/native';
+import { useUser } from '../../Context/UserContext';
 
 import axiosCarrito from '../../routes/axiosCarrito';
 import BackButton from '../components/buttons/behavorial/BackButton';
@@ -14,7 +15,7 @@ import TotalCard from '../components/TotalCard';
 
 export default function Cart() {
     const navigate = useAppNavigation();
-    const router = useRouter();
+    const { user } = useUser();
     const insets = useSafeAreaInsets();
 
 
@@ -28,9 +29,11 @@ export default function Cart() {
 
 
     const fetchCart = async () => {
+        if (!user?.id) return;
+
         try {
             setLoading(true);
-            const data = await axiosCarrito();
+            const data = await axiosCarrito(user.id);
             setCartData(data);
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
@@ -41,18 +44,9 @@ export default function Cart() {
     };
 
 
-    useEffect(() => {
-
-
-        const unsubscribe = router.addListener('focus', fetchCart);
-
-
+    useFocusEffect(() => {
         fetchCart();
-
-
-
-        return unsubscribe;
-    }, [router]);
+    });
 
 
     const calcularNuevoTotal = (productos) => {

@@ -2,6 +2,7 @@ import { View, Text, Image, ScrollView, StyleSheet, ActivityIndicator, SafeAreaV
 import { useEffect, useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
+import { useUser } from '../../../Context/UserContext';
 import axiosProductoPorId from '../../../routes/axiosProductoPorId';
 import { fixImageUrl } from '../../../utils/fixImageUrl';
 import { formatPrice } from '../../../utils/formatPrice';
@@ -11,6 +12,7 @@ import AddToCartButton from '../../components/AddToCartButton';
 
 export default function ProductDetails() {
     const { id } = useLocalSearchParams();
+    const { user } = useUser();
     const insets = useSafeAreaInsets();
 
     const [producto, setProducto] = useState(null);
@@ -18,9 +20,11 @@ export default function ProductDetails() {
     const [cantidad, setCantidad] = useState(1);
 
     useEffect(() => {
+        if (!user?.id) return;
+
         const obtenerProducto = async () => {
             try {
-                const data = await axiosProductoPorId(id);
+                const data = await axiosProductoPorId(user.id, id);
                 setProducto(data);
             } catch (error) {
                 console.error('Error al obtener el producto:', error);
@@ -30,7 +34,7 @@ export default function ProductDetails() {
         };
 
         obtenerProducto();
-    }, [id]);
+    }, [id, user?.id]);
 
     if (loading) {
         return <ActivityIndicator size="large" color="#617957" style={{ flex: 1, justifyContent: 'center' }} />;
@@ -83,7 +87,7 @@ export default function ProductDetails() {
                 </ScrollView>
 
                 <View style={styles.footer}>
-                    <AddToCartButton idProducto={id} cantidad={cantidad} producto={producto} />
+                    <AddToCartButton idProducto={id} cantidad={cantidad} />
                 </View>
             </View>
         </SafeAreaView>
