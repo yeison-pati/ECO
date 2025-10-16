@@ -20,7 +20,8 @@ axiosInstance.interceptors.request.use(
 
       if (
         config.url.includes("/api/auth/login") ||
-        config.url.includes("/api/auth/register") 
+        config.url.includes("/api/auth/register") ||
+        !config.url.startsWith("/api/")
       ) {
         return config;
       }
@@ -44,85 +45,6 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
-);
-
-
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    console.log(
-      "Error en respuesta:",
-      error?.response?.status || error.message
-    );
-
-
-    let customError = new Error();
-    
-
-    if (error.code === "ECONNABORTED") {
-      customError.message = "Tiempo de espera agotado. La conexión es muy lenta.";
-      customError.type = "TIMEOUT";
-    } else if (!error.response) {
-      customError.message = "Sin conexión al servidor. Verifica tu conexión a internet.";
-      customError.type = "NETWORK";
-    } else {
-
-      const status = error.response.status;
-      const serverMessage = error.response.data?.message || error.response.data?.error;
-      
-      switch (status) {
-        case 400:
-          customError.message = serverMessage || "Datos incorrectos enviados al servidor.";
-          customError.type = "BAD_REQUEST";
-          break;
-        case 401:
-          customError.message = "Credenciales incorrectas o sesión expirada.";
-          customError.type = "UNAUTHORIZED";
-
-          if (!isRefreshing) {
-            await AsyncStorage.removeItem("token");
-            await AsyncStorage.removeItem("user");
-          }
-          break;
-        case 403:
-          customError.message = "No tienes permisos para realizar esta acción.";
-          customError.type = "FORBIDDEN";
-          break;
-        case 404:
-          customError.message = serverMessage || "Recurso no encontrado.";
-          customError.type = "NOT_FOUND";
-          break;
-        case 409:
-          customError.message = serverMessage || "Correo o Telefono se encuentra en uso.";
-          customError.type = "CONFLICT";
-          break;
-        case 422:
-          customError.message = serverMessage || "Datos de entrada inválidos.";
-          customError.type = "VALIDATION_ERROR";
-          break;
-        case 500:
-          customError.message = "Error interno del servidor. Intenta más tarde.";
-          customError.type = "SERVER_ERROR";
-          break;
-        case 503:
-          customError.message = "Servicio no disponible temporalmente.";
-          customError.type = "SERVICE_UNAVAILABLE";
-          break;
-        default:
-          customError.message = serverMessage || `Error del servidor (${status})`;
-          customError.type = "UNKNOWN";
-      }
-      
-
-      customError.response = error.response;
-    }
-    
-
-    customError.originalError = error;
-    customError.request = error.request;
-    
-    return Promise.reject(customError);
   }
 );
 
@@ -166,21 +88,21 @@ export const API = {
       ),
     agregarAlCarrito: (idConsumidor, idProducto, cantidad) =>
       axiosInstance.post(
-        `/api/consumidores/${idConsumidor}/carrito/agregar/${idProducto}`,
+        `/api/consumidores/${idConsumidor}/productos/${idProducto}/agregar`,
         { cantidad }
       ),
     getCarrito: (idConsumidor) =>
       axiosInstance.get(`/api/consumidores/${idConsumidor}/carrito`),
     eliminarDelCarrito: (idConsumidor, idProducto) =>
-      axiosInstance.delete(
-        `/api/consumidores/${idConsumidor}/carrito/eliminar/${idProducto}`
+      axiosInstance.get(
+        `/api/consumidores/${idConsumidor}/carrito/${idProducto}/eliminar`
       ),
     limpiarCarrito: (idConsumidor) =>
-      axiosInstance.delete(`/api/consumidores/${idConsumidor}/carrito/limpiar`),
+      axiosInstance.get(`/api/consumidores/${idConsumidor}/carrito/limpiar`),
     actualizarCantidad: (idConsumidor, idProducto, cantidad) =>
-      axiosInstance.put(
-        `/api/consumidores/${idConsumidor}/carrito/actualizar/${idProducto}`,
-        { cantidad }
+      axiosInstance.get(
+        `/api/consumidores/${idConsumidor}/carrito/${idProducto}/cambiarCantidad`,
+        { data: { cantidad } }
       ),
     crearOrden: (id, orden) =>
       axiosInstance.post(`/api/consumidores/${id}/carrito/ordenar`, orden),

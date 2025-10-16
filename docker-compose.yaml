@@ -2,7 +2,6 @@ services:
   db:
     image: mysql:8.0
     container_name: mysql-db
-    restart: always
     environment:
       MYSQL_DATABASE: ecosurprise
       MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
@@ -34,6 +33,8 @@ services:
         condition: service_healthy
     networks:
       - app-network
+    volumes:
+      - ./Back-eco/static:/app/static
 
   frontend:
     build: ./Front-eco

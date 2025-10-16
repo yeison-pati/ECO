@@ -21,6 +21,8 @@ export const ROUTES = {
   COMERCE: {
     HOME: '/comerce/Home',
     ADD_PRODUCT: '/comerce/AddProduct',
+    // Vista de detalle/edición de producto para comerciante
+    PRODUCT: (id) => `/comerce/Product/${id}`,
 
   },
 };

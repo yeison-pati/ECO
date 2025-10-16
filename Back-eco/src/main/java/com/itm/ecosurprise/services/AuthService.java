@@ -119,6 +119,7 @@ public class AuthService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public ResponseEntity<?> register(Map<String, Object> userData) {
         try {
             String rol = (String) userData.get("rol");

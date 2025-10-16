@@ -20,11 +20,11 @@ export default function ProductDetails() {
     const [cantidad, setCantidad] = useState(1);
 
     useEffect(() => {
-        if (!user?.id || user.id === "undefined") return;
+        if (!user?.idUsuario) return;
 
         const obtenerProducto = async () => {
             try {
-                const data = await axiosProductoPorId(user.id, id);
+                const data = await axiosProductoPorId(user.idUsuario, id);
                 setProducto(data);
             } catch (error) {
                 console.error('Error al obtener el producto:', error);
@@ -34,7 +34,18 @@ export default function ProductDetails() {
         };
 
         obtenerProducto();
-    }, [id, user?.id]);
+    }, [id, user?.idUsuario]);
+
+    if (!user) {
+        return (
+            <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
+                <View style={styles.container}>
+                    <BackButton />
+                    <Text style={styles.error}>Inicia sesión para ver el producto</Text>
+                </View>
+            </SafeAreaView>
+        );
+    }
 
     if (loading) {
         return <ActivityIndicator size="large" color="#617957" style={{ flex: 1, justifyContent: 'center' }} />;
@@ -87,7 +98,7 @@ export default function ProductDetails() {
                 </ScrollView>
 
                 <View style={styles.footer}>
-                    <AddToCartButton idProducto={id} cantidad={cantidad} />
+                    <AddToCartButton idConsumidor={user?.idUsuario} idProducto={id} cantidad={cantidad} />
                 </View>
             </View>
         </SafeAreaView>

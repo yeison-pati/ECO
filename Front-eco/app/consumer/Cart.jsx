@@ -1,7 +1,7 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppNavigation } from '../hooks/useAppNavigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useUser } from '../../Context/UserContext';
 
@@ -29,14 +29,14 @@ export default function Cart() {
 
 
     const fetchCart = async () => {
-        if (!user?.id || user.id === "undefined") {
+        if (!user?.idUsuario) {
             setLoading(false);
             return;
         }
 
         try {
             setLoading(true);
-            const data = await axiosCarrito(user.id);
+            const data = await axiosCarrito(user.idUsuario);
             setCartData(data);
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
@@ -47,9 +47,11 @@ export default function Cart() {
     };
 
 
-    useEffect(() => {
-        fetchCart();
-    }, [user]);
+    useFocusEffect(
+        useCallback(() => {
+            fetchCart();
+        }, [user])
+    );
 
 
     const calcularNuevoTotal = (productos) => {

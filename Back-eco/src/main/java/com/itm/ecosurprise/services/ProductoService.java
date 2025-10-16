@@ -83,6 +83,7 @@ public class ProductoService {
      * @return El producto creado con la URL de la imagen asociada.
      * @throws IOException Si ocurre un error al guardar la imagen en el servidor.
      */
+    @SuppressWarnings("unchecked")
     public ResponseEntity<?> crear(int idComerciante, String producto, MultipartFile imagen) {
 
         try {
@@ -101,25 +102,16 @@ public class ProductoService {
                     .orElseThrow(() -> new RuntimeException("Comerciante no encontrado"));
 
             if (imagen != null && !imagen.isEmpty()) {
-
                 String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-
-
-                String carpeta = "src/main/resources/static/productos/";
+                String carpeta = "static/productos/";
                 File directorio = new File(carpeta);
                 if (!directorio.exists())
                     directorio.mkdirs();
-
-
                 Path ruta = Paths.get(carpeta + nombreArchivo);
                 Files.copy(imagen.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
-
-
-
+                // La URL pública debe apuntar a /productos/nombreArchivo
                 String urlBase = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String urlImagen = urlBase + "/productos/" + nombreArchivo;
-
-
                 productoAux.setImagen(urlImagen);
             } else {
                 throw new RuntimeException("Imagen vacía");
@@ -157,6 +149,7 @@ public class ProductoService {
      * @param producto El producto con la nueva información.
      * @return El producto actualizado.
      */
+    @SuppressWarnings("unchecked")
     public ResponseEntity<?> actualizar(int idComerciante, int idProducto, String producto, MultipartFile imagen) {
 
 
@@ -180,25 +173,16 @@ public class ProductoService {
             Producto productoAux = new Producto();
 
             if (imagen != null && !imagen.isEmpty()) {
-
                 String nombreArchivo = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
-
-
-                String carpeta = "src/main/resources/static/productos/";
+                String carpeta = "static/productos/";
                 File directorio = new File(carpeta);
                 if (!directorio.exists())
                     directorio.mkdirs();
-
-
                 Path ruta = Paths.get(carpeta + nombreArchivo);
                 Files.copy(imagen.getInputStream(), ruta, StandardCopyOption.REPLACE_EXISTING);
-
-
-
+                // La URL pública debe apuntar a /productos/nombreArchivo
                 String urlBase = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
                 String urlImagen = urlBase + "/productos/" + nombreArchivo;
-
-
                 productoAux.setImagen(urlImagen);
             } else {
                 throw new RuntimeException("Imagen vacía");

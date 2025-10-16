@@ -33,6 +33,7 @@ export function useAppNavigation() {
     toComerceHome: () => router.replace(ROUTES.COMERCE.HOME),
     toAddProduct: () => router.push(ROUTES.COMERCE.ADD_PRODUCT),
     toComerceOrders: () => router.push(ROUTES.COMERCE.ORDERS),
+  toComerceProductDetails: (id) => router.push(ROUTES.COMERCE.PRODUCT(id)),
     
 
 

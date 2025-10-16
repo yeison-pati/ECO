@@ -1,7 +1,8 @@
 import { View, Text, Image, ScrollView, StyleSheet, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useEffect, useState } from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context'; 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppNavigation } from '../hooks/useAppNavigation';
+import { useUser } from '../../Context/UserContext';
 import axiosProductoPorId from '../../routes/axiosProductoPorId';
 import { fixImageUrl } from '../../utils/fixImageUrl';
 import {formatPrice} from '../../utils/formatPrice';
@@ -15,6 +16,7 @@ export default function ProductDetailsConsumer({ route }) {
     const { id } = route.params;
     const insets = useSafeAreaInsets();
     const navigate = useAppNavigation();
+    const { user } = useUser();
 
     const [producto, setProducto] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -88,7 +90,7 @@ export default function ProductDetailsConsumer({ route }) {
                 </ScrollView>
                 
                 <View style={styles.footer}>
-                    <AddToCartButton idProducto={id} cantidad={cantidad} producto={producto}/> {/* Pasamos el id del producto actual y la cantidad seleccionada*/}
+                    <AddToCartButton idConsumidor={user?.idUsuario} idProducto={id} cantidad={cantidad} producto={producto}/> {/* Pasamos el id del producto actual y la cantidad seleccionada*/}
                 </View>
 
             </View>

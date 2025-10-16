@@ -10,7 +10,7 @@ import axiosAgregarProductoAlCarrito from '../../routes/axiosAgregarProductoAlCa
 
 
 
-export default function AddToCartButton ({ idProducto, cantidad })  {
+export default function AddToCartButton ({ idConsumidor, idProducto, cantidad })  {
 
     /**
      * Maneja el evento de presionar el botón.
@@ -19,7 +19,7 @@ export default function AddToCartButton ({ idProducto, cantidad })  {
      */
     const handleAddToCart = async () => {
         try {
-            await axiosAgregarProductoAlCarrito(idProducto, cantidad);
+            await axiosAgregarProductoAlCarrito(idConsumidor, idProducto, cantidad);
             Alert.alert('Éxito', 'Producto añadido al carrito');
         } catch (error) {
             console.error('Error al añadir al carrito:', error);

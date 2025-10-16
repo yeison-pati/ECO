@@ -1,12 +1,18 @@
 
 import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axiosConfirmarOrden from '../../routes/axiosConfirmarOrden';
+import { API } from '../../api/axiosConfig';
+import { useUser } from '../../Context/UserContext';
 
 export default function ConfirmButton() {
   const navigation = useNavigation();
+  const { user } = useUser();
 
   const handlePress = async () => {
+    if (!user || !user.idUsuario) {
+      Alert.alert('Error', 'Usuario no autenticado');
+      return;
+    }
     try {
       const fechaActual = new Date();
 
@@ -26,7 +32,7 @@ export default function ConfirmButton() {
         }
       };
 
-      const createdOrder = await axiosConfirmarOrden(ordenData);
+      const createdOrder = await API.consumidor.crearOrden(user.idUsuario, ordenData);
 
 
         navigation.navigate('Order', { order: createdOrder });

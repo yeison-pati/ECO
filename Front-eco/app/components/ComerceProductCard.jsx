@@ -18,7 +18,8 @@ export default function ComerceProductCard({ id, nombre, precio, imagen, onPress
         if (onPress) {
             onPress(id);
         } else {
-            navigate.toProductDetails(id);
+            // En contexto de comercio, navegar a la ruta de comercio
+            navigate.toComerceProductDetails(id);
         }
     };
 
