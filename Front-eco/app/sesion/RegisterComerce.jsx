@@ -137,11 +137,13 @@ export default function RegisterComerce() {
 
 
       <TextInput
+        testID="register-commerce-nit-input"
         style={styles.input}
         value={nit}
         onChangeText={(text) => setNit(text)}
         placeholder="NIT"
         keyboardType="numeric"
+        accessibilityLabel="nit-input"
       />
       {errorNit && (
         <ErrorMessage message="NIT invalido" />
@@ -150,13 +152,16 @@ export default function RegisterComerce() {
       
       <View style={styles.containerInputIcon}>
         <TextInput
+          testID="register-commerce-camara-comercio-input"
           style={styles.inputFile}
           placeholder="C. Comercio (PDF)"
           value={nombreCamComercio}
           editable={false}
+          accessibilityLabel="camara-comercio-input"
         />
         <View style={styles.iconContainer}>
           <DocumentPickerButton
+            testID="register-commerce-camara-comercio-picker"
             documento={camComercio}
             setDocumento={setCamComercio}
           />
@@ -164,13 +169,16 @@ export default function RegisterComerce() {
       </View>
       <View style={styles.containerInputIcon}>
         <TextInput
+          testID="register-commerce-rut-input"
           style={styles.inputFile}
           placeholder="RUT (PDF)"
           value={nombreRut}
           editable={false}
+          accessibilityLabel="rut-input"
         />
         <View style={styles.iconContainer}>
           <DocumentPickerButton
+            testID="register-commerce-rut-picker"
             documento={rut}
             setDocumento={setRutSeleccionado}
           />
@@ -185,6 +193,7 @@ export default function RegisterComerce() {
           />
         ) : (
       <CustomButton
+        testID="register-commerce-submit-button"
         title="Completar registro"
         onPress={handleCompleteComerce}
         variant="dark"

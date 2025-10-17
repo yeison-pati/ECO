@@ -6,18 +6,16 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { formatPrice } from '../../utils/formatPrice';
 import { useAppNavigation } from '../hooks/useAppNavigation';
 
-
-
-
-
-
-export default function ProductCard({ id, nombre, precio, imagen }) {
+export default function ProductCard({ id, nombre, precio, imagen, testID }) {
     const navigate = useAppNavigation();
 
     return (
         <TouchableOpacity 
+            testID={testID || `product-card-${id}`}
             style={styles.card} 
             onPress={() => navigate.toProductDetails(id)}
+            accessibilityRole="button"
+            accessibilityLabel={`product-${nombre}`}
         >
             <View style={styles.content}>
                 <View style={styles.rectangulo}>

@@ -3,9 +3,10 @@ import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { API } from '../../api/axiosConfig';
 import { useUser } from '../../Context/UserContext';
+import useAppNavigation from '../hooks/useAppNavigation';
 
-export default function ConfirmButton() {
-  const navigation = useNavigation();
+export default function ConfirmButton({ testID }) {
+  const navigate = useAppNavigation();
   const { user } = useUser();
 
   const handlePress = async () => {
@@ -16,15 +17,11 @@ export default function ConfirmButton() {
     try {
       const fechaActual = new Date();
 
-
       const ordenData = {
         fechaOrden: {
           anio: fechaActual.getFullYear(),
           mes: fechaActual.getMonth() + 1,
           dia: fechaActual.getDate()
-        },
-        direccionEntrega: {
-          idDireccion: 3
         },
         pago: {
           estadoPago: 'PENDIENTE',
@@ -32,23 +29,35 @@ export default function ConfirmButton() {
         }
       };
 
-      const createdOrder = await API.consumidor.crearOrden(user.idUsuario, ordenData);
-
-
-        navigation.navigate('Order', { order: createdOrder });
-        } catch (error) {
-            console.error('Error al crear la orden:', error);
-            Alert.alert('Error', 'Hubo un problema al confirmar la orden. Inténtalo de nuevo.');
-        }
-    };
+      const response = await API.consumidor.crearOrden(user.idUsuario, ordenData);
+      
+      // Verificar que la respuesta contiene una orden válida
+      if (response && response.estadoOrden) {
+        navigate.toOrder(response);
+      } else {
+        // Si no tiene estadoOrden, probablemente es un error del backend
+        const errorMsg = response.data?.mensaje || 'Error desconocido al crear la orden';
+        Alert.alert('Error', errorMsg);
+      }
+    } catch (error) {
+      console.error('Error al crear la orden:', error);
+      const errorMsg = error.response?.data?.mensaje || 'Hubo un problema al confirmar la orden. Inténtalo de nuevo.';
+      Alert.alert('Error', errorMsg);
+    }
+  };
 
   return (
-    <TouchableOpacity style={styles.proceedButton} onPress={handlePress}>
+    <TouchableOpacity
+      testID={testID}
+      style={styles.proceedButton}
+      onPress={handlePress}
+      accessibilityRole="button"
+      accessibilityLabel="confirm"
+    >
       <Text style={styles.proceedButtonText}>Confirmar</Text>
     </TouchableOpacity>
   );
 }
-
 
 const styles = StyleSheet.create({
   proceedButton: {

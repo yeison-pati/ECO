@@ -1,13 +1,17 @@
 
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-export default function CustomButton({ title, onPress, variant = "dark" }) {
+export default function CustomButton({ title, onPress, variant = "dark", testID, disabled, style }) {
   const isDark = variant === "dark";
 
   return (
     <TouchableOpacity
-      style={[styles.button, isDark ? styles.dark : styles.light]}
+      testID={testID}
+      style={[styles.button, isDark ? styles.dark : styles.light, style]}
       onPress={onPress}
+      disabled={disabled}
+      accessibilityRole="button"
+      accessibilityLabel={title}
     >
       <Text style={isDark ? styles.textDark : styles.textLight}>{title}</Text>
     </TouchableOpacity>

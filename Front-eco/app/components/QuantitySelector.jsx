@@ -15,7 +15,7 @@ import axiosActualizarCantidadProducto from '../../routes/axiosActualizarCantida
 
 
 
-export default function QuantitySelector({ cantidad: initialQuantity, onQuantityChange, style, idProducto, onQuantityUpdate }) {
+export default function QuantitySelector({ cantidad: initialQuantity, onQuantityChange, style, idProducto, onQuantityUpdate, testID }) {
 
     const [cantidad, setCantidad] = useState(initialQuantity);
     const [isUpdating, setIsUpdating] = useState(false);
@@ -73,18 +73,34 @@ export default function QuantitySelector({ cantidad: initialQuantity, onQuantity
     };
 
     return (
-        <View style={[styles.quantityWrapper, style]}>
+        <View style={[styles.quantityWrapper, style]} testID={testID}>
 
             {/*Botón disminur cantidad*/}
-            <TouchableOpacity onPress={disminuirCantidad}>
+            <TouchableOpacity
+              testID={testID ? `${testID}-decrease` : undefined}
+              onPress={disminuirCantidad}
+              accessibilityRole="button"
+              accessibilityLabel="decrease-quantity"
+            >
                 <Image source={require('../../assets/icons/minus.png')} style={[styles.quantityIcon, (isUpdating || cantidad <= 1) && styles.disabledButton]} />
             </TouchableOpacity>
 
              {/* Texto que muestra la cantidad actual (o '...' mientras actualiza) */}
-            <Text style={styles.quantity}> {isUpdating ? '...' : cantidad}</Text>
+            <Text
+              testID={testID ? `${testID}-value` : undefined}
+              style={styles.quantity}
+              accessibilityLabel="quantity-value"
+            >
+              {isUpdating ? '...' : cantidad}
+            </Text>
 
             {/*Botón aumentar cantidad*/}
-            <TouchableOpacity onPress={aumentarCantidad}>
+            <TouchableOpacity
+              testID={testID ? `${testID}-increase` : undefined}
+              onPress={aumentarCantidad}
+              accessibilityRole="button"
+              accessibilityLabel="increase-quantity"
+            >
                 <Image source={require('../../assets/icons/addBlack.png')} style={[
                         styles.quantityIcon,
                         isUpdating && styles.disabledButton

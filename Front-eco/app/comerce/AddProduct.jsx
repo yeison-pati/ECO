@@ -112,11 +112,12 @@ export default function AddProduct() {
 
           {/* Image Picker */}
           <View style={styles.imageContainer}>
-            <ImagePickerButton imagen={imagen} setImagen={setImagen} />
+            <ImagePickerButton testID="add-product-image-picker" imagen={imagen} setImagen={setImagen} />
           </View>
 
           {/* Form Inputs */}
           <TextInput
+            testID="add-product-name-input"
             style={styles.input}
             value={nombre}
             onChangeText={setNombre}
@@ -125,9 +126,11 @@ export default function AddProduct() {
             autoCorrect={false}
             returnKeyType="next"
             onSubmitEditing={() => descripcionProducto.current?.focus()}
+            accessibilityLabel="product-name-input"
           />
 
           <TextInput
+            testID="add-product-description-input"
             style={styles.input}
             value={descripcion}
             onChangeText={setDescripcion}
@@ -136,9 +139,11 @@ export default function AddProduct() {
             autoCorrect={false}
             returnKeyType="next"
             onSubmitEditing={() => tipoProducto.current?.focus()}
+            accessibilityLabel="product-description-input"
           />
 
           <TextInput
+            testID="add-product-type-input"
             style={styles.input}
             value={tipo}
             onChangeText={setTipo}
@@ -147,9 +152,11 @@ export default function AddProduct() {
             autoCorrect={false}
             returnKeyType="next"
             onSubmitEditing={() => precioProducto.current?.focus()}
+            accessibilityLabel="product-type-input"
           />
 
           <TextInput
+            testID="add-product-price-input"
             style={styles.input}
             value={precio}
             onChangeText={setPrecio}
@@ -158,9 +165,11 @@ export default function AddProduct() {
             keyboardType="numeric"
             returnKeyType="next"
             onSubmitEditing={() => cantidadProducto.current?.focus()}
+            accessibilityLabel="product-price-input"
           />
 
           <TextInput
+            testID="add-product-quantity-input"
             style={styles.input}
             value={cantidad}
             onChangeText={setCantidad}
@@ -169,11 +178,13 @@ export default function AddProduct() {
             keyboardType="numeric"
             returnKeyType="done"
             onSubmitEditing={handleGuardar}
+            accessibilityLabel="product-quantity-input"
           />
 
           {/* Button */}
           <View style={styles.buttonContainer}>
             <CustomButton
+              testID="add-product-submit-button"
               title={loading ? "Creando..." : "Crear producto"}
               onPress={handleGuardar}
               variant="dark"

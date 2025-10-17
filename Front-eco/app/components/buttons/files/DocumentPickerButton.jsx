@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 
-export default function DocumentPickerButton({ documento, setDocumento }) {
+export default function DocumentPickerButton({ documento, setDocumento, testID }) {
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
@@ -12,13 +12,11 @@ export default function DocumentPickerButton({ documento, setDocumento }) {
         copyToCacheDirectory: false
       });
       
-      console.log(result.assets[0]);
+      console.log(result.assets?.[0]);
     
-        if (!result.canceled) {
-          setDocumento(result.assets[0]);
-
+      if (!result.canceled) {
+        setDocumento(result.assets[0]);
       } else {
-
         console.log('Selección de documento cancelada o no es un PDF');
         setDocumento(null);
       }
@@ -30,7 +28,7 @@ export default function DocumentPickerButton({ documento, setDocumento }) {
 
   return (
     <View style={{ alignItems: 'center', marginVertical: 10 }}>
-      <Button title="PDF" onPress={pickDocument} />
+      <Button title="PDF" onPress={pickDocument} testID={testID} />
     </View>
   );
 }

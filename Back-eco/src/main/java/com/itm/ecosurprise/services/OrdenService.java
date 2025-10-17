@@ -91,13 +91,11 @@ public class OrdenService {
                         .body("El carrito está vacío. No se pueden agregar productos a la orden.");
             }
 
-
             for (ProductoDTO productoDTO : carrito.getProductos()) {
 
                 Producto producto = productoRepository.findById(productoDTO.getId())
                         .orElseThrow(
                                 () -> new RuntimeException("Producto no encontrado con ID: " + productoDTO.getId()));
-
 
                 if (producto.getStock() < productoDTO.getCantidad()) {
 
@@ -106,41 +104,34 @@ public class OrdenService {
                 }
             }
 
-
             Consumidor consumidor = consumidorRepository.findById(idConsumidor)
                     .orElseThrow(() -> new RuntimeException("Consumidor no encontrado con ID: " + idConsumidor));
             orden.setConsumidor(consumidor);
 
-
             Fecha fecha = fechaService.crear(orden.getFechaOrden());
             orden.setFechaOrden(fecha);
-
 
             int monto = carritoService.calcularTotal(idConsumidor);
             orden.setMontoTotal(monto);
 
-
             orden.setEstadoOrden(EstadoOrden.PENDIENTE.name());
+            
+            Direccion direccionEntrega = orden.getDireccionEntrega();
 
-
-
-            Integer idDireccion = orden.getDireccionEntrega().getIdDireccion();
-
-            if(idDireccion != null && idDireccion > 0) {
+            if (direccionEntrega != null && direccionEntrega.getIdDireccion() > 0) {
                 Direccion direccion = consumidor.getDirecciones().stream()
                         .map(UsuarioDireccion::getDireccion)
-                        .filter(d -> d.getIdDireccion() == orden.getDireccionEntrega().getIdDireccion())
+                        .filter(d -> d.getIdDireccion() == direccionEntrega.getIdDireccion())
                         .findFirst()
                         .orElseThrow(() -> new RuntimeException(
-                                "Dirección no encontrada con ID: " + orden.getDireccionEntrega().getIdDireccion()));
+                                "Dirección no encontrada con ID: " + direccionEntrega.getIdDireccion()));
                 orden.setDireccionEntrega(direccion);
             } else {
+                // Si viene null (o sin id), no se asigna dirección
                 orden.setDireccionEntrega(null);
             }
 
-
             Orden ordenExistente = ordenRepository.save(orden);
-
             ordenExistente = obtenerXID(ordenExistente.getIdOrden());
 
             Pago nuevoPago = new Pago();
@@ -152,9 +143,7 @@ public class OrdenService {
 
             ordenExistente.setPago(pagoService.crear(nuevoPago));
 
-
             ordenExistente = ordenRepository.save(ordenExistente);
-
 
             List<OrdenProducto> productos = new ArrayList<>();
             for (ProductoDTO productoDTO : carrito.getProductos()) {
@@ -163,11 +152,8 @@ public class OrdenService {
                         .orElseThrow(() -> new RuntimeException(
                                 "Producto no encontrado con ID: " + productoDTO.getId()));
 
-
-
                 producto.setStock(producto.getStock() - productoDTO.getCantidad());
                 productoRepository.save(producto);
-
 
                 OrdenProducto ordenProducto = new OrdenProducto();
                 ordenProducto.setOrden(ordenExistente);
@@ -176,12 +162,9 @@ public class OrdenService {
             }
             ordenExistente.setProductos(productos);
 
-
             carritoService.limpiarCarrito(idConsumidor);
 
             ordenFinal = ordenRepository.save(ordenExistente);
-
-
 
             return ResponseEntity.status(HttpStatus.CREATED).body(ordenFinal);
         } catch (Exception e) {
@@ -194,11 +177,9 @@ public class OrdenService {
             e.printStackTrace();
             System.err.println("============================");
 
-
             Map<String, String> error = new HashMap<>();
             error.put("mensaje", e.getMessage());
             error.put("causa", e.getCause() != null ? e.getCause().getMessage() : "Desconocida");
-
 
             if (e.getMessage().contains("no encontrado")) {
                 System.err.println("Retornando NOT_FOUND");
@@ -253,7 +234,6 @@ public class OrdenService {
             estadoActual.cancelar(ordenExistente);
             ordenRepository.save(ordenExistente);
 
-
             return ResponseEntity.ok("Orden cancelada con exito");
         } catch (Exception e) {
             if (e.getMessage().contains("no encontrada")) {
@@ -270,7 +250,6 @@ public class OrdenService {
                     .orElseThrow(() -> new RuntimeException("Comerciante no encontrado"));
 
             List<Orden> ordenes = ordenRepository.findAllByIdComerciante(idComerciante);
-
 
             return ResponseEntity.ok(ordenes);
         } catch (Exception e) {

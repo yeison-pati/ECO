@@ -4,13 +4,9 @@
 
 import { TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 
-
 import axiosAgregarProductoAlCarrito from '../../routes/axiosAgregarProductoAlCarrito';
 
-
-
-
-export default function AddToCartButton ({ idConsumidor, idProducto, cantidad })  {
+export default function AddToCartButton ({ idConsumidor, idProducto, cantidad, testID })  {
 
     /**
      * Maneja el evento de presionar el botón.
@@ -28,13 +24,17 @@ export default function AddToCartButton ({ idConsumidor, idProducto, cantidad })
     };
     
     return (
-
-        <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
+        <TouchableOpacity
+          testID={testID}
+          style={styles.button}
+          onPress={handleAddToCart}
+          accessibilityRole="button"
+          accessibilityLabel="add-to-cart"
+        >
             <Text style={styles.buttonText}>Añadir al carrito</Text>
         </TouchableOpacity>
     );
 }
-
 
 const styles = StyleSheet.create({
     button: {

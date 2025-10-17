@@ -103,8 +103,8 @@ export default function Cart() {
             
             {/* Botones superiores: Limpiar carrito y regresar */}
             <View style={styles.buttonContainer}>
-                    <CleanCartButton onSuccess={fetchCart} />
-                    <BackButton />
+                    <CleanCartButton testID="cart-clean-button" onSuccess={fetchCart} />
+                    <BackButton testID="cart-back-button" />
             </View>
             
             <View style={styles.container}>    
@@ -126,10 +126,10 @@ export default function Cart() {
 
                 {/* Parte inferior: botones y total */}
                 <View style={styles.bottomSection}>
-                    <AddMoreProductsButton />
+                    <AddMoreProductsButton testID="cart-add-more-button" />
                     <View style={styles.summary}>
                         <TotalCard total={cartData.total} />
-                        <ProceedButton cartData={cartData}/>
+                        <ProceedButton testID="cart-proceed-button" cartData={cartData} />
                     </View>
                     
                 </View>

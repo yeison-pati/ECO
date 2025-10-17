@@ -42,11 +42,13 @@ export default function Index() {
         </View>
         <View style={styles.buttons}>
           <CustomButton
+            testID="welcome-login-button"
             title="Iniciar Sesión"
             onPress={navigate.toLogin}
             variant="dark"
           />
           <CustomButton
+            testID="welcome-register-button"
             title="Registrarse"
             onPress={navigate.toRegister}
             variant="light"

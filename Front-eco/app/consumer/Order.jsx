@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 import axiosLimpiarCarrito from '../../routes/axiosLimpiarCarrito';
+import { useUser } from '../../Context/UserContext';
+import { useAppNavigation } from '../hooks/useAppNavigation';
 
 const statusStyles = {
   PENDIENTE: {
@@ -22,22 +24,36 @@ const statusStyles = {
 };
 
 export default function Order() {
-  const navigation = useNavigation();
+  const navigate = useAppNavigation();
   const route = useRoute();
-  const { order } = route.params;
+  const { order } = route.params || {};
+  const { user } = useUser();
 
   const handleBackHome = async () => {
     try {
-      await axiosLimpiarCarrito();
-      navigation.navigate('Tabs', { screen: 'Inicio' })
+      await axiosLimpiarCarrito(user.idUsuario);
+      navigate.toConsumerHome();
     } catch (error) {
       console.error('Error al vaciar el carrito:', error);
     }
   };
  
+  // Validación para evitar errores si order o estadoOrden no existen
+  if (!order || !order.estadoOrden) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.modal}>
+          <Text style={styles.statusText}>Error: No se encontró información de la orden</Text>
+          <TouchableOpacity style={styles.backButton} onPress={handleBackHome}>
+            <Text style={styles.backText}>Volver al inicio</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
   const { estadoOrden } = order;  
-  
-  const style = statusStyles[estadoOrden.toUpperCase()]
+  const style = statusStyles[estadoOrden.toUpperCase()] || statusStyles.PENDIENTE;
 
   return (
     <View style={styles.container}>

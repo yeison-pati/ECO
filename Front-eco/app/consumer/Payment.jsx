@@ -8,18 +8,19 @@ import axiosCarrito from '../../routes/axiosCarrito';
 import BackButton from '../components/buttons/behavorial/BackButton';
 import TotalCard from '../components/TotalCard';
 import ConfirmButton from '../components/ConfirmButton';
+import { useUser } from '../../Context/UserContext';
 
 export default function Payment() {
+  const { user } = useUser();
 
   const [total, setTotal] = useState(0);
-    const [loading, setLoading] = useState(true);
-    const insets = useSafeAreaInsets();
-
+  const [loading, setLoading] = useState(true);
+  const insets = useSafeAreaInsets();
 
     const fetchCartTotal = async () => {
         try {
             setLoading(true);
-            const data = await axiosCarrito();
+            const data = await axiosCarrito(user.idUsuario);
             setTotal(data.total);
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
@@ -40,7 +41,7 @@ export default function Payment() {
     <View style={[styles.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
        {/* Boton superior: regresar */}
        <View style={styles.buttonContainer}>
-          <BackButton />
+          <BackButton testID="payment-back-button" />
         </View>
 
         <View style={styles.container}>
@@ -64,7 +65,7 @@ export default function Payment() {
         {/* Parte inferior: botones y total */}
         <View style={styles.bottomSection}>
           <TotalCard total={total} />
-          <ConfirmButton/>
+          <ConfirmButton testID="payment-confirm-button" />
         </View>            
     </View>
   );

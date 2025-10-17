@@ -12,7 +12,8 @@ const PhoneInput = ({
   numeroError,
   indicativoRef,
   numeroRef,
-  onSubmitEditing
+  onSubmitEditing,
+  testID
 }) => {
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[41]);
@@ -37,6 +38,7 @@ const PhoneInput = ({
     <TouchableOpacity
       style={styles.countryItem}
       onPress={() => onSelectCountry(item)}
+      testID={testID ? `${testID}-country-${item.code}` : undefined}
     >
       <Font
         mensage={`${item.name} (+${item.dialCode})`}
@@ -51,8 +53,11 @@ const PhoneInput = ({
     <View>
       <View style={styles.containernumero}>
         <TouchableOpacity 
+          testID={testID ? `${testID}-country-code` : undefined}
           style={[styles.input, styles.inputCodigoPais]}
           onPress={() => setShowCountryPicker(true)}
+          accessibilityRole="button"
+          accessibilityLabel="select-country-code"
         >
           <Font
             mensage={`+${indicativoValue || selectedCountry.dialCode}`}
@@ -62,6 +67,7 @@ const PhoneInput = ({
           />
         </TouchableOpacity>
         <TextInput
+          testID={testID ? `${testID}-phone-number` : undefined}
           style={[styles.input, styles.inputnumero]}
           value={numeroValue}
           onChangeText={onNumeroChange}
@@ -70,6 +76,7 @@ const PhoneInput = ({
           keyboardType="phone-pad"
           maxLength={10}
           onSubmitEditing={onSubmitEditing}
+          accessibilityLabel="phone-number-input"
         />
       </View>
 

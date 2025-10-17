@@ -113,18 +113,21 @@ export default function SelectProfile() {
         ) : (
           <View style={styles.buttons}>
             <CustomButton
+              testID="select-profile-consumer-button"
               title="Consumidor"
               onPress={() => handleTipo("CONSUMIDOR")}
               variant="dark"
               disabled={loading}
             />
             <CustomButton
+              testID="select-profile-merchant-button"
               title="Comerciante"
               onPress={() => handleTipo("COMERCIANTE")}
               variant="dark"
               disabled={loading}
             />
             <CustomButton
+              testID="select-profile-delivery-button"
               title="Repartidor"
               onPress={() => handleTipo("REPARTIDOR")}
               variant="dark"

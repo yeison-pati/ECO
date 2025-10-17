@@ -4,9 +4,8 @@ import React from 'react';
 import { View, Button, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function ImagePickerButton({ imagen, setImagen }) {
+export default function ImagePickerButton({ imagen, setImagen, testID }) {
     const pickImage = async () => {
-
         let result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images', 'videos'],
           allowsEditing: true,
@@ -14,7 +13,7 @@ export default function ImagePickerButton({ imagen, setImagen }) {
           quality: 1,
         });
     
-        console.log(result.assets[0]);
+        console.log(result.assets?.[0]);
     
         if (!result.canceled) {
           setImagen(result.assets[0]);
@@ -23,7 +22,7 @@ export default function ImagePickerButton({ imagen, setImagen }) {
 
     return (
         <View style={{ alignItems: 'center', marginVertical: 10 }}>
-            <Button title="Seleccionar imagen" onPress={pickImage} />
+            <Button title="Seleccionar imagen" onPress={pickImage} testID={testID} />
             {imagen && (
                 <Image
                     source={{ uri: imagen.uri }}

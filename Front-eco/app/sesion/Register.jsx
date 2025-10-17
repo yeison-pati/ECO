@@ -134,6 +134,7 @@ export default function Register() {
         </View>
 
         <TextInput
+          testID="register-name-input"
           style={styles.input}
           value={nombre}
           onChangeText={(text) => setNombre(text)}
@@ -143,9 +144,11 @@ export default function Register() {
           keyboardType="default"
           returnKeyType="next"
           onSubmitEditing={() => correoInput.current.focus()}
+          accessibilityLabel="name-input"
         />
 
         <TextInput
+          testID="register-email-input"
           style={styles.input}
           value={correo}
           onChangeText={(text) => setCorreo(text)}
@@ -153,6 +156,7 @@ export default function Register() {
           autoCorrect={false}
           placeholder="Correo"
           onSubmitEditing={() => contrasenaInput.current.focus()}
+          accessibilityLabel="email-input"
         />
         {errorCorreo && (
           <View style={styles.errorContainer}>
@@ -161,6 +165,7 @@ export default function Register() {
         )}
 
         <TextInput
+          testID="register-password-input"
           secureTextEntry
           style={styles.input}
           value={contrasena}
@@ -168,9 +173,11 @@ export default function Register() {
           ref={contrasenaInput}
           placeholder="Contraseña"
           onSubmitEditing={() => contrasenaVerInput.current.focus()}
+          accessibilityLabel="password-input"
         />
 
         <TextInput
+          testID="register-password-confirm-input"
           secureTextEntry
           style={styles.input}
           value={contrasenaVer}
@@ -178,6 +185,7 @@ export default function Register() {
           ref={contrasenaVerInput}
           placeholder="Confirmar contraseña"
           onSubmitEditing={() => numeroInput.current.focus()}
+          accessibilityLabel="password-confirm-input"
         />
         {errorContrasena && (
           <View style={styles.errorContainer}>
@@ -186,6 +194,7 @@ export default function Register() {
         )}
 
         <PhoneInput
+          testID="register-phone"
           indicativoValue={indicativo}
           numeroValue={numero}
           onIndicativoChange={setIndicativo}
@@ -198,6 +207,7 @@ export default function Register() {
 
         <View style={styles.buttonContainer}>
           <CustomButton
+            testID="register-next-button"
             title="SIGUIENTE"
             onPress={handleRegister}
             variant="dark"

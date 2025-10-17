@@ -5,12 +5,17 @@
 import { TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-export default function BackButton({ navigation }) {
+export default function BackButton({ navigation, testID }) {
   const nav = navigation || useNavigation();
 
   return (
-
-    <TouchableOpacity style={styles.backButton} onPress={() => nav.goBack()}>
+    <TouchableOpacity
+      testID={testID}
+      style={styles.backButton}
+      onPress={() => nav.goBack()}
+      accessibilityRole="button"
+      accessibilityLabel="back"
+    >
       {/* Icono de flecha para representar el botón de regreso */}
       <Image
         source={require("../../../../assets/icons/back.png")}

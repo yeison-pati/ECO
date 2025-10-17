@@ -5,21 +5,25 @@
 import { TouchableOpacity, Text,  StyleSheet } from 'react-native'
 import { useAppNavigation } from '../hooks/useAppNavigation';
 
-export default function ProceedButton({cartData}) {
+export default function ProceedButton({ cartData, testID }) {
     const navigate = useAppNavigation();
-
 
     const handlePress = () => {
         navigate.toPayment(cartData.total);
     };
 
     return (
-        <TouchableOpacity style={styles.proceedButton} onPress={handlePress}>
+        <TouchableOpacity
+          testID={testID}
+          style={styles.proceedButton}
+          onPress={handlePress}
+          accessibilityRole="button"
+          accessibilityLabel="proceed"
+        >
             <Text style={styles.proceedButtonText}>Proceder</Text>
         </TouchableOpacity>
     )
 }
-
 
 const styles = StyleSheet.create({
     proceedButton: {

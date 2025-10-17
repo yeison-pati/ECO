@@ -5,18 +5,21 @@
 import { TouchableOpacity, Text,  StyleSheet } from 'react-native'
 import { useAppNavigation } from '../hooks/useAppNavigation';
 
-export default function AddMoreProductsButton () {
+export default function AddMoreProductsButton ({ testID }) {
     const navigate = useAppNavigation();
 
     return (
-
-
-        <TouchableOpacity style={styles.addMoreButton} onPress={navigate.toConsumerHome}> 
+        <TouchableOpacity
+          testID={testID}
+          style={styles.addMoreButton}
+          onPress={navigate.toConsumerHome}
+          accessibilityRole="button"
+          accessibilityLabel="add-more-products"
+        > 
             <Text style={styles.addMoreText}>+ Añadir más productos</Text>
         </TouchableOpacity>
     )
 }
-
 
 const styles = StyleSheet.create({
     addMoreButton: {

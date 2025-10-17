@@ -1,8 +1,3 @@
-
-
-
-
-
 import { StyleSheet, View, ScrollView } from "react-native"
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useEffect, useState } from "react";
@@ -75,7 +70,7 @@ export default function Home(){
                     
 
                 </ScrollView>
-                <LogoutButton/>
+                <LogoutButton testID="consumer-home-logout-button" />
             </View>
     )
 }

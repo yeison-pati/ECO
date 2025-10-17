@@ -99,6 +99,7 @@ export default function Login() {
         
         <View style={styles.inputContainer}>
           <TextInput
+            testID="login-email-input"
             style={[styles.input, errorCorreo && styles.inputError]}
             placeholder="Correo electrónico"
             value={correo}
@@ -108,6 +109,7 @@ export default function Login() {
             returnKeyType="next"
             onSubmitEditing={() => contrasenaInput.current?.focus()}
             editable={!loading}
+            accessibilityLabel="email-input"
           />
           {errorCorreo && (
             <ErrorMessage message="Formato de correo electrónico inválido" />
@@ -116,6 +118,7 @@ export default function Login() {
 
         <View style={styles.inputContainer}>
           <TextInput
+            testID="login-password-input"
             ref={contrasenaInput}
             style={styles.input}
             placeholder="Contraseña"
@@ -125,10 +128,12 @@ export default function Login() {
             returnKeyType="done"
             onSubmitEditing={handleLogin}
             editable={!loading}
+            accessibilityLabel="password-input"
           />
         </View>
 
         <CustomButton
+          testID="login-submit-button"
           title={loading ? "Iniciando sesión..." : "Iniciar Sesión"}
           onPress={handleLogin}
           variant="dark"
@@ -137,9 +142,12 @@ export default function Login() {
         />
 
         <TouchableOpacity
+          testID="login-register-link"
           onPress={navigate.toRegister}
           style={styles.registerLink}
           disabled={loading}
+          accessibilityRole="button"
+          accessibilityLabel="register-link"
         >
           <Text style={[
             styles.registerText,
