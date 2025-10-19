@@ -16,6 +16,7 @@ import axiosLimpiarCarrito from '../../routes/axiosLimpiarCarrito';
 export default function Cart() {
     const { user } = useUser();
     const insets = useSafeAreaInsets();
+    const [isEmpty, setIsEmpty] = useState(false);
 
 
     const [cartData, setCartData] = useState({
@@ -32,7 +33,9 @@ export default function Cart() {
             setLoading(false);
             return;
         }
-
+        if (cartData.productos.length === 0) {
+            setIsEmpty(true);
+        }
         try {
             setLoading(true);
             const data = await axiosCarrito(user.idUsuario);
@@ -132,6 +135,14 @@ export default function Cart() {
                             userId={user.idUsuario}
                         />
                     ))}
+                    {isEmpty && (
+                        <Text
+                        testID='cart-empty-text'
+                        style={{ textAlign: 'center', marginTop: 20, fontSize: 16, color: '#555' }}
+                        >
+                            El carrito está vacío
+                        </Text>
+                    )}
                 </ScrollView>
 
                 {/* Parte inferior: botones y total */}

@@ -10,6 +10,7 @@ import axiosCreateProduct from "../../routes/axiosCreateProduct";
 import { useUser } from "../../Context/UserContext";
 import OverBottom from "../components/alerts/OverBottom";
 import { useAppNavigation } from "../hooks/useAppNavigation";
+import BackButton from "../components/buttons/behavorial/BackButton";
 
 export default function AddProduct() {
   const { user } = useUser();
@@ -91,6 +92,15 @@ export default function AddProduct() {
     }
   };
 
+  const cleanForm = () => {
+    setNombre("");
+    setDescripcion("");
+    setTipo("");
+    setPrecio("");
+    setCantidad("");
+    setImagen(null);
+  };
+
   return (
     <View style={styles.root}>
       <StatusBar style="dark" />
@@ -100,13 +110,16 @@ export default function AddProduct() {
         keyboardShouldPersistTaps="handled"
         style={styles.scrollView}
       >
+        <BackButton onBack={() => {
+          cleanForm();
+        }}/>
         <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 20 }]}>
           {/* Header */}
           <Font
-            mensage="Creando Producto"
+            mensage="Crear Producto"
             variant="semibold"
             size={25}
-            Color="#B3B3B3"
+            Color="#000000ff"
             style={styles.title}
           />
 
@@ -219,6 +232,8 @@ const styles = StyleSheet.create({
   title: {
     paddingLeft: 20,
     paddingVertical: 10,
+    //centrar texto
+    textAlign: 'center',
   },
   imageContainer: {
     alignItems: 'center',
