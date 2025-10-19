@@ -24,7 +24,7 @@ services:
     ports:
       - "8080:8080"  # No necesario con network_mode: host
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/ecosurprise
+      - DATABASE_URL=jdbc:mysql://db:3306/ecosurprise
       - DATABASE_USERNAME=${DATABASE_USERNAME}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}

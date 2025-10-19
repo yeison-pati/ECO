@@ -33,16 +33,16 @@ export default function Cart() {
             setLoading(false);
             return;
         }
-        if (cartData.productos.length === 0) {
-            setIsEmpty(true);
-        }
         try {
             setLoading(true);
             const data = await axiosCarrito(user.idUsuario);
+            console.log('Datos del carrito obtenidos:', data);
             setCartData(data);
+            setIsEmpty(data.productos.length === 0);
         } catch (error) {
             console.error('Error al obtener el carrito:', error);
             setCartData({ productos: [], total: 0 });
+            setIsEmpty(true);
         } finally {
             setLoading(false);
         }
