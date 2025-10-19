@@ -62,14 +62,18 @@ export default function ProductDetails() {
         );
     }
 
-    const { nombre, precio, descripcion, imagen } = producto;
+    const { nombre, precio, descripcion, imagen, stock } = producto;
+
+    console.log('stock:', stock);
 
     return (
         <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
             <View style={styles.container}>
-                <BackButton />
+                <BackButton/>
 
-                <View style={styles.header}>
+                <View
+                testID='product-images'
+                style={styles.header}>
                     <Image
                         source={{ uri: fixImageUrl(imagen) }}
                         style={styles.image}
@@ -82,23 +86,43 @@ export default function ProductDetails() {
                     keyboardShouldPersistTaps="handled"
                 >
                     <View style={styles.infoWrapper}>
-                        <Text style={styles.name}>{nombre}</Text>
+                        <Text
+                        testID='product-name'
+                        style={styles.name}>{nombre}
+                        </Text>
 
                         <View style={styles.priceWrapper}>
-                            <Text style={styles.price}>${formatPrice(precio)}</Text>
+                            <Text
+                            testID='product-price'
+                            style={styles.price}>${formatPrice(precio)}
+                            </Text>
                             <QuantitySelector style={styles.selector}
                                 cantidad={cantidad}
                                 onQuantityChange={setCantidad}
+                                testID="qs"
+                                maximo={stock}
                             />
                         </View>
 
                         <Text style={styles.detailsTitle}>Detalles</Text>
-                        <Text style={styles.description}>{descripcion}</Text>
+                        <Text
+                        testID='product-stock'
+                        style={styles.description}>max disp.({stock})
+                        </Text>
+                        <Text
+                        testID='product-description'
+                        style={styles.description}>{descripcion}
+                        </Text>
                     </View>
                 </ScrollView>
 
                 <View style={styles.footer}>
-                    <AddToCartButton idConsumidor={user?.idUsuario} idProducto={id} cantidad={cantidad} />
+                    <AddToCartButton
+                    idConsumidor={user?.idUsuario}
+                    idProducto={id}
+                    cantidad={cantidad}
+                    maximo={stock}
+                    />
                 </View>
             </View>
         </SafeAreaView>

@@ -138,6 +138,7 @@ export default function SelectProfile() {
 
         {errorAlert && (
           <OverBottom
+            title={errorMessage === "" ? "SELECCIÓN EXITOSA" : "ERROR EN LA SELECCIÓN"}
             message={errorMessage}
             onPress={() => setErrorAlert(false)}
           />

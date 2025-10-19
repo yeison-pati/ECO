@@ -1,47 +1,13 @@
-
-
-
-
 import { TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 
-import axiosLimpiarCarrito from '../../routes/axiosLimpiarCarrito';
-
-export default function CleanCartButton ({ onSuccess, testID }) {
-
-  const handleCleanCart = async () => {
-    Alert.alert(
-      'Limpiar carrito',
-      '¿Estás seguro de vaciar todo el carrito?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-        {
-          text: 'Limpiar',
-          onPress: async () => {
-            try {
-              await axiosLimpiarCarrito();
-              Alert.alert('Éxito', 'Carrito vaciado correctamente');
-              if (onSuccess) onSuccess();
-            } catch (error) {
-              Alert.alert('Error', 'No se pudo vaciar el carrito');
-            }
-          },
-        },
-      ]
-    );
-  };
+export default function CleanCartButton ({ onPress }) {
 
   return (
     <TouchableOpacity
-      testID={testID}
+      testID="clean-cart-button"
       style={styles.cleanButton}
-      onPress={handleCleanCart}
-      accessibilityRole="button"
-      accessibilityLabel="clean-cart"
+      onPress={onPress}
     >
-      {/*Quita todos los productos del carrito*/}
       <Image source={require('../../assets/icons/cleanCart.png')} style={styles.cleanIcon} />
     </TouchableOpacity>
   );

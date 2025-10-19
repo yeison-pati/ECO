@@ -1,6 +1,5 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useAppNavigation } from '../hooks/useAppNavigation';
 import { useEffect, useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useUser } from '../../Context/UserContext';
@@ -12,9 +11,9 @@ import CleanCartButton from '../components/CleanCartButton';
 import AddMoreProductsButton from '../components/AddMoreProductsButton';
 import ProceedButton from '../components/ProceedButton';
 import TotalCard from '../components/TotalCard';
+import axiosLimpiarCarrito from '../../routes/axiosLimpiarCarrito';
 
 export default function Cart() {
-    const navigate = useAppNavigation();
     const { user } = useUser();
     const insets = useSafeAreaInsets();
 
@@ -58,8 +57,19 @@ export default function Cart() {
         return productos.reduce((acc, prod) => acc + (prod.precio * prod.cantidad), 0);
     };
 
+    const cleanCart = async () => {
+        try {
+            setLoading(true);
+            await axiosLimpiarCarrito(user.idUsuario);
+            setCartData({ productos: [], total: 0 });
+        } catch (error) {
+            console.error('Error al limpiar el carrito:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const handleDelete = (idProducto) => {
+    const handleOneDelete = (idProducto) => {
         setCartData(prevData => {
             const nuevosProductos = prevData.productos.filter(p => p.id !== idProducto);
             return {
@@ -69,6 +79,7 @@ export default function Cart() {
         });
     };
 
+    
 
     const handleQuantityUpdate = (idProducto, nuevaCantidad) => {
         setCartData(prevData => {
@@ -100,16 +111,14 @@ export default function Cart() {
 
     return (
         <SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}>
-            
-            {/* Botones superiores: Limpiar carrito y regresar */}
+
             <View style={styles.buttonContainer}>
-                    <CleanCartButton testID="cart-clean-button" onSuccess={fetchCart} />
-                    <BackButton testID="cart-back-button" />
+                    <CleanCartButton onPress={cleanCart} />
+                    <BackButton />
             </View>
             
             <View style={styles.container}>    
 
-                {/* Título principal */}
                 <Text style={styles.title}>Mi orden</Text>
 
                 {/* Lista de productos en el carrito */}
@@ -118,8 +127,9 @@ export default function Cart() {
                         <CartItem
                             key={item.id}
                             item={item}
-                            onDelete={() => handleDelete(item.id)}
+                            onDelete={() => handleOneDelete(item.id)}
                             onQuantityUpdate={handleQuantityUpdate}
+                            userId={user.idUsuario}
                         />
                     ))}
                 </ScrollView>

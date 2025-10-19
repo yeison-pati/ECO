@@ -19,6 +19,7 @@ import { useAppNavigation } from "../hooks/useAppNavigation";
 import { useUser } from "../../Context/UserContext";
 import { ROUTES } from "../config/routes";
 import LogOutButton from "../components/buttons/behavorial/LogOutbutton";
+import defaultPic from '../../assets/icons/default-picture.png';
 
 export default function Home() {
   const insets = useSafeAreaInsets();
@@ -105,14 +106,29 @@ export default function Home() {
           />
         )}
         <ScrollView>
-          {comerce && comerce.imagen && (
+          <Font
+            mensage={user.nombre}
+            variant="bold"
+            size={18}
+            Color="#05130A"
+            style={{ paddingTop: 10, paddingLeft: 19 }}
+          />
+          {comerce && comerce.imagen ? (
             <View style={styles.logoContainer}>
               <Image
                 source={{ uri: fixImageUrl(comerce.imagen) }}
                 style={styles.image}
               />
             </View>
+          ) : (
+            <View style={styles.logoContainer}>
+              <Image
+                source={defaultPic}
+                style={styles.image}
+              />
+            </View>
           )}
+
 
           <Font
             mensage="Productos ofrecidos"
@@ -161,8 +177,6 @@ export default function Home() {
           </View>
         </ScrollView>
       </View>
-
-      <LogOutButton/>
     </View>
   );
 }

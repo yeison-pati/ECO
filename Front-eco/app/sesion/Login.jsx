@@ -160,6 +160,7 @@ export default function Login() {
         {/* Alerta de error */}
         {errorAlert && (
           <OverBottom
+            title={errorMessage === "" ? "LOGIN EXITOSO" : "ERROR AL INICIAR SESIÓN"}
             message={errorMessage}
             onPress={handleCloseAlert}
           />

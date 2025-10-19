@@ -196,6 +196,7 @@ export default function AddProduct() {
 
       {errorAlert && (
         <OverBottom
+          title={errorMessage === "¡Producto creado correctamente!" ? "ÉXITO" : "ERROR"}
           message={errorMessage}
           onPress={() => setErrorAlert(false)}
         />

@@ -65,7 +65,7 @@ export default function ProductDetailsComerce() {
 		);
 	}
 
-	const { nombre, precio, descripcion, imagen } = producto;
+	const { nombre, precio, descripcion, imagen, stock } = producto;
 
 	return (
 		<SafeAreaView style={[styles.safeArea, { paddingTop: insets.top, paddingBottom: insets.bottom }]}> 
@@ -88,6 +88,7 @@ export default function ProductDetailsComerce() {
 							<Text style={styles.price}>${formatPrice(precio)}</Text>
 						</View>
 						<Text style={styles.detailsTitle}>Detalles</Text>
+						<Text style={styles.description}>max disp.({stock})</Text>
 						<Text style={styles.description}>{descripcion}</Text>
 					</View>
 				</ScrollView>

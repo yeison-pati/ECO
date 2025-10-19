@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router/tabs';
 import { Image, View, StyleSheet } from 'react-native';
 import homeIcon from '../../assets/icons/home.png';
-import cartIcon from '../../assets/icons/carrito.png';
+import ordersIcon from '../../assets/icons/tiempo-pasado.png';
 import userIcon from '../../assets/icons/usuario.png';
 
-export default function ConsumerLayout() {
+export default function CommerceLayout() {
   return (
     <Tabs
       screenOptions={{
@@ -32,12 +32,12 @@ export default function ConsumerLayout() {
         }}
       />
       <Tabs.Screen
-        name="Cart"
+        name="Orders"
         options={{
           tabBarIcon: ({ focused, size }) => (
             <View style={styles.circle(size, focused)}>
               <Image
-                source={cartIcon}
+                source={ordersIcon}
                 style={styles.icon(size, focused)}
               />
             </View>
@@ -58,8 +58,7 @@ export default function ConsumerLayout() {
 
 
       {/* Rutas del mismo folder que NO deben ser tabs */}
-      <Tabs.Screen name="Order" options={{ href: null }} />
-      <Tabs.Screen name="Payment" options={{ href: null }} />
+      <Tabs.Screen name="AddProduct" options={{ href: null }} />
       <Tabs.Screen name="Product/[id]" options={{ href: null }} />
       <Tabs.Screen name="Product/index" options={{ href: null }} />
     </Tabs>

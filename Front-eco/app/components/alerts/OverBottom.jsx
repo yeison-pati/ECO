@@ -3,17 +3,21 @@ import React from "react";
 import Font from "../aesthetic/Font";
 import CustomButton from "../buttons/CustomButton";
 
-export default function OverBottom({ message, onPress }) {
+export default function OverBottom({ title, message, onPress }) {
   return (
-    <View style={styles.overlay}>
+    <View
+      testID="over-bottom"
+      style={styles.overlay}
+    >
       <View style={styles.alertContainer}>
         <Font
-          mensage="SE PRODUJO UN ERROR"
+          mensage={title}
           variant="bold"
           size={43}
           Color="#05130A"
         />
         <Font
+          testID="over-bottom-message"
           mensage={message}
           variant="SemiBold"
           size={19}
@@ -22,7 +26,7 @@ export default function OverBottom({ message, onPress }) {
         />
         <View style={styles.buttons}>
           <CustomButton title="VOLVER" variant="dark"
-          onPress={onPress} />
+            onPress={onPress} />
         </View>
       </View>
     </View>

@@ -10,8 +10,10 @@ RUN npm install
 
 COPY . .
 
-# Exponer los puertos que usa Expo
+# Exponer los puertos 
 EXPOSE 8081
 
 # Comando para arrancar expo
 CMD ["npx", "expo", "start"]
+
+# trying vim editor

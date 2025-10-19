@@ -1,6 +1,6 @@
 
 
- 
+
 
 import { StyleSheet, Text, View } from 'react-native'
 
@@ -9,15 +9,17 @@ import { formatPrice } from '../../utils/formatPrice'
 
 
 
-export default function TotalCard ({total}) {
+export default function TotalCard({ total }) {
     return (
-            <View style={styles.summaryRow}>
-                {/* Etiqueta "Total" */}
-                <Text style={styles.totalText}>Total</Text>
+        <View style={styles.summaryRow}>
 
-                {/* Precio total */}
-                <Text style={styles.total}>${formatPrice(total)}</Text>
-            </View>
+            <Text style={styles.totalText}>Total</Text>
+
+            <Text
+                testID='total-cart'
+                style={styles.total}>${formatPrice(total)}
+            </Text>
+        </View>
     )
 }
 

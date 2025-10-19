@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "EcoSurprise",
-    "slug": "EcoSurprise",
+    "name": "Eco",
+    "slug": "eco",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,6 +29,13 @@
     "plugins": [
       "expo-router"
     ],
-    "scheme": "ecosurprise"
+    "scheme": "eco",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6226dad0-a326-4317-841d-ca3385e7c82b"
+      }
+    },
+    "owner": "yeison_pati"
   }
 }

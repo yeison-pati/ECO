@@ -217,6 +217,7 @@ export default function Register() {
 
       {errorAlert && (
         <OverBottom
+          title={errorMessage === "" ? "REGISTRO EXITOSO" : "ERROR EN EL REGISTRO"}
           message={errorMessage}
           onPress={() => setErrorAlert(false)}
         />

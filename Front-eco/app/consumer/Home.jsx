@@ -70,7 +70,6 @@ export default function Home(){
                     
 
                 </ScrollView>
-                <LogoutButton testID="consumer-home-logout-button" />
             </View>
     )
 }

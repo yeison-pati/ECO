@@ -110,7 +110,7 @@ public class ConsumidorController {
         return ordenService.crear(idConsumidor, orden);
     }
 
-    @GetMapping("/{idConsumidor}/ordenes/{idOrden}")
+    @DeleteMapping("/{idConsumidor}/ordenes/{idOrden}")
     public ResponseEntity<?> obtenerOrden(@PathVariable int idConsumidor, @PathVariable int idOrden) {
         return ordenService.obtenerPorId(idConsumidor, idOrden);
     }

@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "cypress": "^15.4.0"
+    "cypress": "^15.5.0"
   },
   "private": true
 }

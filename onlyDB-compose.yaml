@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}  # contraseña del root
+      MYSQL_DATABASE: eco_db
+      MYSQL_USER: ${DATABASE_USERNAME}           # usuario que usará Spring
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}       # contraseña del usuario
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password

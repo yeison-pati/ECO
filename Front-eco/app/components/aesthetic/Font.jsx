@@ -1,6 +1,6 @@
 import { Text, StyleSheet } from "react-native";
 
-export default function Font({ mensage, variant, size, Color, style }) {
+export default function Font({ testID, mensage, variant, size, Color, style }) {
     const getFontStyle = () => {
         switch (variant.toLowerCase()) {
           case 'bold':
@@ -17,7 +17,7 @@ export default function Font({ mensage, variant, size, Color, style }) {
       };
     
       return (
-        <Text style={[getFontStyle(), { fontSize: size, color: {Color}}, style]}>
+        <Text testID={testID} style={[getFontStyle(), { fontSize: size, color: Color }, style]}>
           {mensage}
         </Text>
       );

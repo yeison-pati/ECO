@@ -143,6 +143,7 @@ export default function RegisterComerce() {
         onChangeText={(text) => setNit(text)}
         placeholder="NIT"
         keyboardType="numeric"
+        maxLength={10}
         accessibilityLabel="nit-input"
       />
       {errorNit && (
@@ -201,10 +202,9 @@ export default function RegisterComerce() {
       />
       )}
 
-      <LogOutButton/>
-
       {errorAlert && (
           <OverBottom
+            title={errorMessage === "" ? "REGISTRO EXITOSO" : "ERROR EN EL REGISTRO"}
             message={errorMessage}
             onPress={() => setErrorAlert(false)}
           />

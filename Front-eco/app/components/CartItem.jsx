@@ -7,37 +7,58 @@ import DeleteCartButton from '../components/DeleteCartButton';
 
 import { formatPrice } from '../../utils/formatPrice';
 import { fixImageUrl } from '../../utils/fixImageUrl';
+import axios from 'axios';
+import axiosEliminarProductoDelCarrito from '../../routes/axiosEliminarProductoDelCarrito';
 
 
 
 
 
 
-export default function CartItem({ item, onDelete, onQuantityUpdate }) {
+export default function CartItem({ item, onDelete, onQuantityUpdate, userId }) {
+
     const handleCantidadChange = (nuevaCantidad) => {
         onQuantityUpdate(item.id, nuevaCantidad);
     };
 
+    const handleOneDelete = async () => {
+        try {
+            await axiosEliminarProductoDelCarrito(userId, item.id);
+            onDelete(item.id); // solo si backend responde bien
+        } catch {
+            Alert.alert('Error', 'No se pudo eliminar el producto');
+        }
+    }
+
     return (
-        <View style={styles.cartItem}>
-            {/**/}
-            <Image source={{ uri: fixImageUrl(item.imagen) }} style={styles.productImage} />
+        <View
+            testID={`cart-item-${item.id}`}
+            style={styles.cartItem}>
+
+            <Image
+                testID={`cart-product-image-${item.id}`}
+                source={{ uri: fixImageUrl(item.imagen) }} style={styles.productImage}
+            />
 
             <View style={styles.productInfo}>
-                <Text style={styles.productName}>{item.nombre}</Text>
-                <Text style={styles.productPrice}>${formatPrice(item.precio)}</Text>
+                <Text
+                    testID={`cart-product-name-${item.id}`}
+                    style={styles.productName}>{item.nombre}
+                </Text>
+                <Text
+                    testID={`cart-product-price-${item.id}`}
+                    style={styles.productPrice}>${formatPrice(item.precio)}
+                </Text>
 
                 <QuantitySelector
+                    testID='qs'
                     style={styles.selector}
                     cantidad={item.cantidad}
                     onQuantityChange={handleCantidadChange}
                 />
             </View>
 
-            <DeleteCartButton
-                idProducto={item.id}
-                onSuccess={onDelete}
-            />
+            <DeleteCartButton onPress={handleOneDelete} />
         </View>
     );
 }

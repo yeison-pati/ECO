@@ -1,12 +1,4 @@
-
-
-
-
 import { API } from '../api/axiosConfig';
-
-
-
-
 
 const axiosActualizarCantidadProducto = async (idConsumidor, idProducto, cantidad) => {
     try {

@@ -1,69 +1,37 @@
-
-
-
-
-
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
 
-
-import axiosActualizarCantidadProducto from '../../routes/axiosActualizarCantidadProducto';
-
-
-
-
-
-
-
-export default function QuantitySelector({ cantidad: initialQuantity, onQuantityChange, style, idProducto, onQuantityUpdate, testID }) {
-
+export default function QuantitySelector({
+    cantidad: initialQuantity,
+    onQuantityChange,
+    style,
+    testID,
+    maximo
+}) {
     const [cantidad, setCantidad] = useState(initialQuantity);
+    const [cantidadInput, setCantidadInput] = useState(String(initialQuantity));
     const [isUpdating, setIsUpdating] = useState(false);
-
 
     useEffect(() => {
         setCantidad(initialQuantity);
+        setCantidadInput(String(initialQuantity));
     }, [initialQuantity]);
 
-
-    const actualizarCantidad = async (nuevaCantidad) => {
-        try {
-            setIsUpdating(true);
-            
-
-            if (idProducto) {
-                await axiosActualizarCantidadProducto(idProducto, nuevaCantidad);
-            }
-            
-
-            setCantidad(nuevaCantidad);
-            
-
-            if (onQuantityChange) {
-                onQuantityChange(nuevaCantidad);
-            }
-            
-
-            if (onQuantityUpdate) {
-                onQuantityUpdate();
-            }
-            
-        } catch (error) {
-            console.error('Error al actualizar cantidad:', error);
-
-
-            setCantidad(cantidad);
-        } finally {
-            setIsUpdating(false);
-        }
+    const actualizarCantidad = (nuevaCantidad) => {
+        setCantidad(nuevaCantidad);
+        setCantidadInput(String(nuevaCantidad));
+        if (onQuantityChange) onQuantityChange(nuevaCantidad);
     };
 
 
     const aumentarCantidad = () => {
         const nuevaCantidad = cantidad + 1;
-        actualizarCantidad(nuevaCantidad); 
+        if (nuevaCantidad > maximo) {
+            setCantidadInput(String(cantidad));
+            return;
+        };
+        actualizarCantidad(nuevaCantidad);
     };
-
 
     const disminuirCantidad = () => {
         if (cantidad > 1) {
@@ -74,42 +42,54 @@ export default function QuantitySelector({ cantidad: initialQuantity, onQuantity
 
     return (
         <View style={[styles.quantityWrapper, style]} testID={testID}>
-
-            {/*Botón disminur cantidad*/}
+            {/* Botón disminuir */}
             <TouchableOpacity
-              testID={testID ? `${testID}-decrease` : undefined}
-              onPress={disminuirCantidad}
-              accessibilityRole="button"
-              accessibilityLabel="decrease-quantity"
+                testID={testID ? `${testID}-decrease` : undefined}
+                onPress={disminuirCantidad}
+                accessibilityRole="button"
             >
-                <Image source={require('../../assets/icons/minus.png')} style={[styles.quantityIcon, (isUpdating || cantidad <= 1) && styles.disabledButton]} />
+                <Image
+                    source={require('../../assets/icons/minus.png')}
+                    style={[styles.quantityIcon, (isUpdating || cantidad <= 1) && styles.disabledButton]}
+                />
             </TouchableOpacity>
 
-             {/* Texto que muestra la cantidad actual (o '...' mientras actualiza) */}
-            <Text
-              testID={testID ? `${testID}-value` : undefined}
-              style={styles.quantity}
-              accessibilityLabel="quantity-value"
-            >
-              {isUpdating ? '...' : cantidad}
-            </Text>
+            {/* Campo editable */}
+            <TextInput
+                testID={testID ? `${testID}-input` : undefined}
+                style={styles.quantityInput}
+                value={isUpdating ? '...' : cantidadInput}
+                onChangeText={(text) => {
+                    // Permitir vacío para escribir libremente
+                    setCantidadInput(text);
+                }}
+                onBlur={() => {
+                    if (cantidadInput === '' || isNaN(parseInt(cantidadInput, 10))) {
+                        actualizarCantidad(1); // vuelve a 1 si está vacío
+                    } else {
+                        const nuevaCantidad = parseInt(cantidadInput, 10);
+                        actualizarCantidad(nuevaCantidad);
+                    }
+                }}
+                keyboardType="numeric"
+                textAlign="center"
+                placeholder="1"
+            />
 
-            {/*Botón aumentar cantidad*/}
+            {/* Botón aumentar */}
             <TouchableOpacity
-              testID={testID ? `${testID}-increase` : undefined}
-              onPress={aumentarCantidad}
-              accessibilityRole="button"
-              accessibilityLabel="increase-quantity"
+                testID={testID ? `${testID}-increase` : undefined}
+                onPress={aumentarCantidad}
+                accessibilityRole="button"
             >
-                <Image source={require('../../assets/icons/addBlack.png')} style={[
-                        styles.quantityIcon,
-                        isUpdating && styles.disabledButton
-                    ]} />
+                <Image
+                    source={require('../../assets/icons/addBlack.png')}
+                    style={[styles.quantityIcon, isUpdating && styles.disabledButton]}
+                />
             </TouchableOpacity>
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     quantityWrapper: {
@@ -118,6 +98,13 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingVertical: 10,
         paddingHorizontal: 5,
+    },
+    quantityInput: {
+        fontWeight: 'bold',
+        width: 40,
+        textAlign: 'center',
+        fontSize: 18,
+        marginHorizontal: 5,
     },
     quantityIcon: {
         width: 30,

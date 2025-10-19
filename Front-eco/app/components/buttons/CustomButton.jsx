@@ -13,7 +13,9 @@ export default function CustomButton({ title, onPress, variant = "dark", testID,
       accessibilityRole="button"
       accessibilityLabel={title}
     >
-      <Text style={isDark ? styles.textDark : styles.textLight}>{title}</Text>
+      <Text testID="custom-button-text"
+      style={isDark ? styles.textDark : styles.textLight}>{title}
+      </Text>
     </TouchableOpacity>
   );
 }

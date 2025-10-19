@@ -166,16 +166,25 @@ public class CarritoService {
      * @return Respuesta HTTP indicando éxito o error.
      */
     public ResponseEntity<?> limpiarCarrito(int idConsumidor) {
-        try {
-            consumidorRepository.findById(idConsumidor)
-                    .orElseThrow(() -> new RuntimeException(
-                            "Consumidor no encontrado con ID: " + idConsumidor));
-            carritos.remove(idConsumidor);
-            return ResponseEntity.ok("Carrito limpiado con éxito");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    try {
+        consumidorRepository.findById(idConsumidor)
+                .orElseThrow(() -> new RuntimeException(
+                        "Consumidor no encontrado con ID: " + idConsumidor));
+
+        CarritoDTO carrito = obtenerCarrito(idConsumidor);
+        carrito.getProductos().clear();
+        carrito.setTotal(0);
+
+        // opcional: actualizar en el mapa explícitamente
+        carritos.put(idConsumidor, carrito);
+
+        System.out.println("Carrito limpiado para el consumidor con ID: " + idConsumidor);
+        return ResponseEntity.ok("Carrito limpiado con éxito");
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+}
+
 
     /**
      * Obtiene todos los productos en el carrito de un consumidor junto con el total calculado.
